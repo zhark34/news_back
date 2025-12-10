@@ -1,14 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import rateLimit from "express-rate-limit";
-import sequelize from "./src/config/db.js";
-import {
-    Journalist,
-    Categories,
-    SocialNetworks,
-    News,
-    NewsBlock
-} from './src/models/associations.js'
+import { databaseLoader } from "./src/loaders/databes.loader.js";
 
 dotenv.config();
 
@@ -34,17 +27,11 @@ app.get('/', (req, res) => {
   res.send('Servidor funcionando');
 });
 
-app.listen(PORT, async () => {
-  try{
+const startServer = async () => {
+  await databaseLoader();
+  app.listen(PORT, () => {
+    console.log(`Servidor corriendo en: http://localhost:${PORT}`);
+  });
+};
 
-    await sequelize.sync({ alter: true });
-    console.log('Conexión a la base de datos establecida con éxito.');
-
-    app.listen(PORT, () => {
-        console.log(`Servidor corriendo en: http://localhost:${PORT}`);
-    });
-
-  }catch (error) {
-        console.error('Error al conectar con la base de datos:', error);
-    }
-});
+startServer();
