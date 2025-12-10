@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import rateLimit from "express-rate-limit";
+import journalistRoutes from './routes/journalist.routes.js'
 
 dotenv.config();
 
@@ -19,6 +20,8 @@ const limiter = rateLimit({
 });
 
 app.use(limiter);
+
+app.use('/api/v1/journalist', journalistRoutes)
 
 app.get('/', (req, res) => {
   res.send('Servidor funcionando');
