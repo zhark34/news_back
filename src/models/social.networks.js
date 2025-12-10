@@ -8,6 +8,7 @@ const SocialNetworks = sequelize.define(
         id: {
             type: DataTypes.BIGINT,
             primaryKey: true,
+            autoIncrement: true,
         },
         social_network: {
             type: DataTypes.STRING(50),
