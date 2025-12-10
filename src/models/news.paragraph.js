@@ -12,7 +12,11 @@ const NewsParagraph = sequelize.define(
         content: {
             type: DataTypes.TEXT(1000),
             allowNull: false,
-        }
+        },
+        block_id: {
+            type: DataTypes.BIGINT,
+            allowNull: false,
+        },
 
     },
     {
