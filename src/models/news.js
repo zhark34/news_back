@@ -27,12 +27,16 @@ const News = sequelize.define(
         },
         journalist_id: {
             type: DataTypes.BIGINT,
-            primaryKey: true,
+            allowNull: false,
         },
         country: {
             type: DataTypes.STRING(50),
             allowNull: false,
-        }
+        },
+        news_id: {
+            type: DataTypes.BIGINT,
+            allowNull: false,
+        },
 
     },
     {
