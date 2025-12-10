@@ -20,7 +20,7 @@ const NewsBlock = sequelize.define(
         },
         block_id: {
             type: DataTypes.BIGINT,
-            primaryKey: true,
+            allowNull: false,
         },
         position: {
             type: DataTypes.SMALLINT,
