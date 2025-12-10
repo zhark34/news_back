@@ -8,6 +8,7 @@ const News = sequelize.define(
         id: {
             type: DataTypes.BIGINT,
             primaryKey: true,
+            autoIncrement: true,
         },
         cover_photo: {
             type: DataTypes.STRING(),
