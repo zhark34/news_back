@@ -13,6 +13,8 @@ router.get("/journalist", getAllJournalist);
 
 router.get("/journalist/:id", getOneJournalist);
 
-router.post("/create", createJournalist)
+router.post("/create", createJournalist);
+
+
 
 export default router;

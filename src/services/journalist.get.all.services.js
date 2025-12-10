@@ -3,7 +3,7 @@ import Journalist from '../models/journalist.js'
 
 export const getAllJournalistServices = async () =>{
 
-    const allJournalist = await Journalist.findAll({include: { all: true }});
+    const allJournalist = await Journalist.findAll({include: { all: true }, attributes: { exclude: ['password'] }});
 
     if(allJournalist.length === 0){
 
