@@ -2,7 +2,7 @@ import Journalist from '../models/journalist.js';
 import { generatePassword } from '../utils/generate.password.js';
 import { hashPassword } from '../utils/hash.password.js';
 import { sendEmail } from '../config/nodemailer.js';
-import {journalistWelcomeEmail} from '../utils/email templates/journalist.welcome.js'
+import {journalistWelcomeEmail} from '../utils/email_templates/journalist.welcome.js'
 import { generateId } from '../utils/id.generator.js';
 
 export const createJournalistServices = async (name, email, role) =>{
@@ -34,10 +34,10 @@ export const createJournalistServices = async (name, email, role) =>{
 
         to: email,
         subject: "Bienvenido a DIARIO",
-        html: await journalistWelcomeEmail(name, email, password, "https://tu-pagina.com/login")
+        html: await journalistWelcomeEmail(name, email, password, "app.com/login")
 
     })
 
-    return "Periodista creado, revise su email"
+    return "Revise su email"
 
 }

@@ -2,6 +2,8 @@ import { getAllJournalistServices } from "../services/journalist.get.all.service
 import { getOneJournalistServices } from "../services/journalist.get.one.services.js"
 import { createJournalistServices } from "../services/journalist.create.services.js"
 import { loginJournalistServices } from "../services/journalist.login.services.js"
+import { forgetPasswordJournalistServices } from "../services/journalist.forget.password.services.js"
+import { resetPasswordJournalistServices } from "../services/journalist.reset.password.services.js"
 
 export const getAllJournalist = async (req, res, next) =>{
 
@@ -95,6 +97,58 @@ export const loginJournalist = async (req, res, next) =>{
         
         if (error.message === "WRONG_PASSWORD") {
             return res.status(409).json({ message: "Contraseña errónea, pruebe de vuelta" });
+        }
+
+        return res.status(500).json({ message: "Error del servidor al ingresar" });
+    }
+};
+
+export const forgetPasswordJournalist = async (req, res, next) =>{
+
+    const { email } = req.body;
+
+    try{
+
+        const journalist = await forgetPasswordJournalistServices(email);
+
+        return res.status(200).json({
+            message: "Revisa tu email y segui los pasos",
+            journalist
+        });
+
+    } catch (error) {
+        console.error(error);
+
+        if (error.message === "JOURNALITS_NO_EXIST") {
+            return res.status(404).json({ message: "El periodista no está registrado" });
+        }
+        
+        if (error.message === "WRONG_PASSWORD") {
+            return res.status(409).json({ message: "Contraseña errónea, pruebe de vuelta" });
+        }
+
+        return res.status(500).json({ message: "Error del servidor al ingresar" });
+    }
+};
+
+export const resetPasswordJournalist = async (req, res, next) =>{
+
+    const { token, password } = req.body;
+
+    try{
+
+        const journalist = await resetPasswordJournalistServices(token, password);
+
+        return res.status(200).json({
+            message: "Revisa tu email y segui los pasos",
+            journalist
+        });
+
+    } catch (error) {
+        console.error(error);
+        
+        if (error.message === "TOKEN_EXPIRED") {
+            return res.status(409).json({ message: "El token ya no es válido" });
         }
 
         return res.status(500).json({ message: "Error del servidor al ingresar" });

@@ -34,6 +34,14 @@ const Journalist = sequelize.define(
             type: DataTypes.STRING(255),
             allowNull: false,
         },
+        reset_token: {
+            type: DataTypes.STRING(100),
+            allowNull: true,
+        },
+        reset_token_expire: {
+            type: DataTypes.BIGINT,
+            allowNull: true,
+        }
 
     },
     {
