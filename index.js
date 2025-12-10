@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import rateLimit from "express-rate-limit";
-import sequelize from "./db.js";
+import sequelize from "./src/config/db.js";
 
 dotenv.config();
 
