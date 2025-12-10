@@ -2,6 +2,13 @@ import express from "express";
 import dotenv from "dotenv";
 import rateLimit from "express-rate-limit";
 import sequelize from "./src/config/db.js";
+import {
+    Journalist,
+    Categorys,
+    SocialNetworks,
+    News,
+    NewsParagraph
+} from './src/models/associations.js'
 
 dotenv.config();
 
@@ -30,7 +37,7 @@ app.get('/', (req, res) => {
 app.listen(PORT, async () => {
   try{
 
-    await sequelize.authenticate();
+    await sequelize.sync({ alter: true });
     console.log('Conexión a la base de datos establecida con éxito.');
 
     app.listen(PORT, () => {

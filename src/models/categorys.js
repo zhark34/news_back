@@ -8,11 +8,16 @@ const Categorys = sequelize.define(
         id: {
             type: DataTypes.BIGINT,
             primaryKey: true,
+            autoIncrement: true,
         },
         category: {
             type: DataTypes.STRING(50),
             allowNull: false,
-        }
+        },
+        journalist_id: {
+            type: DataTypes.BIGINT,
+            allowNull: false,
+        },
 
     },
     {
