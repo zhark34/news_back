@@ -119,14 +119,10 @@ export const forgetPasswordJournalist = async (req, res, next) =>{
     } catch (error) {
         console.error(error);
 
-        if (error.message === "JOURNALITS_NO_EXIST") {
+        if (error.message === "JOURNALIST_NO_EXIST") {
             return res.status(404).json({ message: "El periodista no está registrado" });
         }
         
-        if (error.message === "WRONG_PASSWORD") {
-            return res.status(409).json({ message: "Contraseña errónea, pruebe de vuelta" });
-        }
-
         return res.status(500).json({ message: "Error del servidor al ingresar" });
     }
 };
@@ -140,7 +136,7 @@ export const resetPasswordJournalist = async (req, res, next) =>{
         const journalist = await resetPasswordJournalistServices(token, password);
 
         return res.status(200).json({
-            message: "Revisa tu email y segui los pasos",
+            message: "Contraseña cambiada con exito",
             journalist
         });
 
