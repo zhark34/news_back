@@ -8,6 +8,7 @@ const NewsParagraph = sequelize.define(
         id: {
             type: DataTypes.BIGINT,
             primaryKey: true,
+            autoIncrement: true,
         },
         content: {
             type: DataTypes.TEXT(1000),
