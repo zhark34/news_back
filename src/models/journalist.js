@@ -8,6 +8,7 @@ const Journalist = sequelize.define(
         id: {
             type: DataTypes.BIGINT,
             primaryKey: true,
+            autoIncrement: true,
         },
         name: {
             type: DataTypes.STRING(250),
@@ -20,7 +21,11 @@ const Journalist = sequelize.define(
         email: {
             type: DataTypes.STRING(250),
             allowNull: false,
-        }
+        },
+        journalist_id: {
+            type: DataTypes.BIGINT,
+            allowNull: false, 
+        },
 
     },
     {
