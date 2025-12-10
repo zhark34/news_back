@@ -25,7 +25,11 @@ const NewsImage = sequelize.define(
         photo_source: {
             type: DataTypes.STRING(150),
             allowNull: false,
-        }
+        },
+        block_id: {
+            type: DataTypes.BIGINT,
+            allowNull: false,
+        },
     },
     {
         timestamps: true
