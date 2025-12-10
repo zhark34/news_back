@@ -5,7 +5,8 @@ import {
     
     getAllJournalist,
     getOneJournalist,
-    createJournalist
+    createJournalist,
+    loginJournalist
 
 } from "../controllers/journalist.controllers.js";
 
@@ -15,6 +16,6 @@ router.get("/journalist/:id", getOneJournalist);
 
 router.post("/create", createJournalist);
 
-router.post("/login")
+router.post("/login", loginJournalist)
 
 export default router;
