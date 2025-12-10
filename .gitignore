@@ -1,0 +1,52 @@
+# Dependencias
+node_modules/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# PID files
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage
+coverage/
+*.lcov
+
+# Build
+dist/
+build/
+out/
+
+# Cache
+.cache/
+.nyc_output/
+.eslintcache/
+.parcel-cache/
+
+# Ambiente / variables
+.env
+.env.*.local
+!.env.example
+
+# Sistema operativo / Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+# Lockfiles opcionales (descomentar si no querés subirlos)
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+
+# Debug
+node_modules/.cache/
