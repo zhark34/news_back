@@ -67,11 +67,7 @@ export const createJournalist = async (req, res, next) =>{
         if (error.message === "JOURNALIST_EXIST") {
             return res.status(409).json({ message: "El periodista ya está registrado" });
         }
-
-        if (error.message === "EMAIL_EXIST") {
-            return res.status(409).json({ message: "El email ya está registrado" });
-        }
-
+        
         return res.status(500).json({ message: "Error al intentar registrar al periodista" });
     }
 };

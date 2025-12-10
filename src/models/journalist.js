@@ -26,6 +26,14 @@ const Journalist = sequelize.define(
             type: DataTypes.BIGINT,
             allowNull: false, 
         },
+        role: {
+            type: DataTypes.STRING(50),
+            allowNull: false,
+        },
+        password: {
+            type: DataTypes.STRING(255),
+            allowNull: false,
+        },
 
     },
     {
