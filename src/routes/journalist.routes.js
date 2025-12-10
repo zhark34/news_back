@@ -15,6 +15,6 @@ router.get("/journalist/:id", getOneJournalist);
 
 router.post("/create", createJournalist);
 
-
+router.post("/login")
 
 export default router;
