@@ -8,6 +8,7 @@ const NewsBlock = sequelize.define(
         id: {
             type: DataTypes.BIGINT,
             primaryKey: true,
+            autoIncrement: true,
         },
         news_id: {
             type: DataTypes.BIGINT,
