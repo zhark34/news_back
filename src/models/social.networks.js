@@ -16,7 +16,11 @@ const SocialNetworks = sequelize.define(
         link_social_network: {
             type: DataTypes.STRING(250),
             allowNull: false,
-        }
+        },
+        journalist_id: {
+            type: DataTypes.BIGINT,
+            allowNull: false, 
+        },
 
     },
     {
