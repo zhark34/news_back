@@ -1,5 +1,6 @@
 import { getAllJournalistServices } from "../services/journalist.get.all.services.js"
 import { getOneJournalistServices } from "../services/journalist.get.one.services.js"
+import { createJournalistServices } from "../services/journalist.create.services.js"
 
 export const getAllJournalist = async (req, res, next) =>{
 
@@ -44,5 +45,33 @@ export const getOneJournalist = async (req, res, next) =>{
         }
 
         return res.status(500).json({ message: "Error al obtener los periodistas" });
+    }
+};
+
+export const createJournalist = async (req, res, next) =>{
+
+    const { name, email, role } = req.body;
+
+    try{
+
+        const journalist = await createJournalistServices(name, email, role);
+
+        return res.status(201).json({
+            message: "Periodista creado correctamente",
+            journalist
+        });
+
+    } catch (error) {
+        console.error(error);
+
+        if (error.message === "JOURNALIST_EXIST") {
+            return res.status(409).json({ message: "El periodista ya está registrado" });
+        }
+
+        if (error.message === "EMAIL_EXIST") {
+            return res.status(409).json({ message: "El email ya está registrado" });
+        }
+
+        return res.status(500).json({ message: "Error al intentar registrar al periodista" });
     }
 };
