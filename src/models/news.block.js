@@ -12,7 +12,7 @@ const NewsBlock = sequelize.define(
         },
         news_id: {
             type: DataTypes.BIGINT,
-            primaryKey: true,
+            allowNull: false,
         },
         block_type: {
             type: DataTypes.STRING(50),
@@ -24,7 +24,7 @@ const NewsBlock = sequelize.define(
         },
         position: {
             type: DataTypes.SMALLINT,
-            primaryKey: true,
+            allowNull: false,
         },
 
     },
