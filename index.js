@@ -4,10 +4,10 @@ import rateLimit from "express-rate-limit";
 import sequelize from "./src/config/db.js";
 import {
     Journalist,
-    Categorys,
+    Categories,
     SocialNetworks,
     News,
-    NewsParagraph
+    NewsBlock
 } from './src/models/associations.js'
 
 dotenv.config();
