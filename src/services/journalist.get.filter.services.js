@@ -16,19 +16,23 @@ export const getOneJournalistFilterServices = async (filters) => {
 
     const categoiesWhere = {};
 
+    const hasCategoryFilter = !!filters.categories;
+
     if (filters.categories) categoiesWhere.category = filters.categories;
 
     const journalist = await Journalist.findAll(
         {where: journalistWhere,
         attributes: { exclude: ['password', 'reset_token', 'reset_token_expire']},
-
         include: [
             {
             model: CategoriesJournalist,
+            required: hasCategoryFilter,
             include: [
                 {
                     model: Categories,
-                    attributes: ['category', 'category_id']
+                    where: categoiesWhere,
+                    attributes: ['category', 'category_id'],
+                    required: hasCategoryFilter
                 }
             ]
         },
