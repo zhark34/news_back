@@ -11,6 +11,7 @@ import { updateRoleJournalistServices } from "../services/journalist.update.role
 import { updatePhotoJournalistServices } from "../services/journalist.update.photo.services.js"
 import { updatePasswordJournalistServices } from "../services/journalist.update.password.services.js"
 import { getOneJournalistFilterServices } from "../services/journalist.get.filter.services.js"
+import { validateJournalistServices } from "../services/journalist.validate.services.js"
 import fs from 'fs-extra';
 
 export const getAllJournalist = async (req, res, next) =>{
@@ -362,6 +363,34 @@ export const getOneJournalistFilter = async (req, res, next) =>{
     try{
 
         const journalist = await getOneJournalistFilterServices(filters);
+
+        return res.status(200).json({
+            message: "OK",
+            journalist
+        });
+
+    } catch (error) {
+        console.error(error);
+
+        if (error.message === "NO_JOURNALIST_FOUND") {
+            return res.status(404).json({ message: "No se encontró el periodista con la id indicada" });
+        }
+
+        return res.status(500).json({ message: "Error al obtener los periodistas" });
+    }
+};
+
+export const validateJournalistFilter = async (req, res, next) =>{
+
+    const id = req.user.journalist_id;
+
+    const email = req.user.email;
+
+    const role = req.user.role;
+
+    try{
+
+        const journalist = await validateJournalistServices(id, email, role);
 
         return res.status(200).json({
             message: "OK",
