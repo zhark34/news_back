@@ -22,7 +22,7 @@ export const loginJournalistServices = async (email, password) =>{
     }
 
     const payload = {
-        id: validateJournalist.id,
+        journalist_id: validateJournalist.journalist_id,
         email: validateJournalist.email,
         role: validateJournalist.role
     };
