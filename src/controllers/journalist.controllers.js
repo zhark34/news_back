@@ -8,6 +8,8 @@ import { updateNameJournalistServices } from "../services/journalist.update.name
 import { updateBioJournalistServices } from "../services/journalist.update.bio.services.js"
 import { updateEmailJournalistServices } from "../services/journalist.update.email.services.js"
 import { updateRoleJournalistServices } from "../services/journalist.update.role.services.js"
+import { updatePhotoJournalistServices } from "../services/journalist.update.photo.services.js"
+import fs from 'fs-extra';
 
 export const getAllJournalist = async (req, res, next) =>{
 
@@ -276,3 +278,42 @@ export const updateRoleJournalist = async (req, res, next) =>{
 
 }
 
+export const updatePhotoJournalist = async (req, res, next) =>{
+
+    const {email, password} = req.body;
+
+    const photo = req.file;
+
+    try{
+
+        if (!photo) {
+            return res.status(400).json({ message: "No se ha proporcionado ninguna imagen." });
+        }
+
+        const journalist = await updatePhotoJournalistServices(email, password, photo.path);
+
+        
+        return res.status(200).json({
+            message: "Foto de perfil actualizada con éxito",
+            journalist
+        });
+
+    }catch (error) {
+        console.error(error);
+        
+        if (error.message === "JOURNALITS_NO_EXIST") {
+            return res.status(404).json({ message: "El periodista no está registrado" });
+        }
+
+        if (error.message === "WRONG_PASSWORD") {
+            return res.status(401).json({ message: "Contraseña errónea, pruebe de vuelta" });
+        }
+
+        return res.status(500).json({ message: "Error del servidor al ingresar" });
+    }finally {
+        if (req.file && req.file.path) {
+            await fs.unlink(req.file.path).catch(err => console.error("Error borrando temporal:", err));
+        }
+    }
+
+}

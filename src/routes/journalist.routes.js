@@ -1,6 +1,8 @@
 import { Router } from "express";
 const router = Router();
 
+import upload from "../middlewares/multer.config.js";
+
 import { 
     
     getAllJournalist,
@@ -12,7 +14,8 @@ import {
     updateNameJournalist,
     updateBioJournalist,
     updateEmailJournalist,
-    updateRoleJournalist
+    updateRoleJournalist,
+    updatePhotoJournalist
 
 } from "../controllers/journalist.controllers.js";
 
@@ -34,6 +37,8 @@ router.patch("/update-bio", updateBioJournalist);
 
 router.patch("/update-email", updateEmailJournalist);
 
-router.patch("/update-role", updateRoleJournalist)
+router.patch("/update-role", updateRoleJournalist);
+
+router.patch("/update-photo", upload.single('photo'),updatePhotoJournalist);
 
 export default router;
