@@ -17,9 +17,12 @@ import {
     updateRoleJournalist,
     updatePhotoJournalist,
     updatePasswordJournalist,
-    getOneJournalistFilter
+    getOneJournalistFilter,
+    validateJournalistFilter
 
 } from "../controllers/journalist.controllers.js";
+
+import { tokenMiddleware } from "../middlewares/token.middlewares.js";
 
 router.get("/journalist", getAllJournalist);
 
@@ -45,6 +48,8 @@ router.patch("/update-photo", upload.single('photo'),updatePhotoJournalist);
 
 router.patch("/update-password", updatePasswordJournalist);
 
-router.get("/journalist-filter", getOneJournalistFilter)
+router.get("/journalist-filter", getOneJournalistFilter);
+
+router.get("/journalist-validate", tokenMiddleware, validateJournalistFilter);
 
 export default router;
