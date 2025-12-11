@@ -11,7 +11,7 @@ const NewsParagraph = sequelize.define(
             autoIncrement: true,
         },
         content: {
-            type: DataTypes.TEXT(1000),
+            type: DataTypes.STRING(1000),
             allowNull: false,
         },
         block_id: {
