@@ -11,7 +11,8 @@ import {
     resetPasswordJournalist,
     updateNameJournalist,
     updateBioJournalist,
-    updateEmailJournalist
+    updateEmailJournalist,
+    updateRoleJournalist
 
 } from "../controllers/journalist.controllers.js";
 
@@ -32,5 +33,7 @@ router.post("/update-name", updateNameJournalist);
 router.post("/update-bio", updateBioJournalist);
 
 router.post("/update-email", updateEmailJournalist);
+
+router.post("/update-role", updateRoleJournalist)
 
 export default router;

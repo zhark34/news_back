@@ -7,6 +7,7 @@ import { resetPasswordJournalistServices } from "../services/journalist.reset.pa
 import { updateNameJournalistServices } from "../services/journalist.update.name.services.js"
 import { updateBioJournalistServices } from "../services/journalist.update.bio.services.js"
 import { updateEmailJournalistServices } from "../services/journalist.update.email.services.js"
+import { updateRoleJournalistServices } from "../services/journalist.update.role.services.js"
 
 export const getAllJournalist = async (req, res, next) =>{
 
@@ -225,7 +226,7 @@ export const updateEmailJournalist = async (req, res, next) =>{
 
         
         return res.status(200).json({
-            message: "Biografia cambiada con exito",
+            message: "Email cambiada con exito",
             journalist
         });
 
@@ -242,6 +243,32 @@ export const updateEmailJournalist = async (req, res, next) =>{
 
         if (error.message === "EMAIL_ALREADY_REGISTERED") {
             return res.status(409).json({ message: "El email ya está registrado, prueba con otro" });
+        }
+
+        return res.status(500).json({ message: "Error del servidor al ingresar" });
+    }
+
+}
+
+export const updateRoleJournalist = async (req, res, next) =>{
+
+    const {journalist_id, role} = req.body;
+
+    try{
+
+        const journalist = await updateRoleJournalistServices(journalist_id, role);
+
+        
+        return res.status(200).json({
+            message: "Rol cambiado con exito",
+            journalist
+        });
+
+    }catch (error) {
+        console.error(error);
+        
+        if (error.message === "JOURNALITS_NO_EXIST") {
+            return res.status(404).json({ message: "El periodista no está registrado" });
         }
 
         return res.status(500).json({ message: "Error del servidor al ingresar" });
