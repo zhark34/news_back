@@ -2,7 +2,7 @@ import { DataTypes } from "sequelize";
 import sequelize from "../config/db.js";
 
 const Journalist = sequelize.define(
-    "journalist",
+    "journalists",
     {
 
         id: {
@@ -32,7 +32,8 @@ const Journalist = sequelize.define(
         },
         journalist_id: {
             type: DataTypes.BIGINT,
-            allowNull: false, 
+            allowNull: false,
+            unique: true
         },
         role: {
             type: DataTypes.STRING(50),
