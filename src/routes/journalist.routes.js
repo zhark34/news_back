@@ -15,7 +15,8 @@ import {
     updateBioJournalist,
     updateEmailJournalist,
     updateRoleJournalist,
-    updatePhotoJournalist
+    updatePhotoJournalist,
+    updatePasswordJournalist
 
 } from "../controllers/journalist.controllers.js";
 
@@ -40,5 +41,7 @@ router.patch("/update-email", updateEmailJournalist);
 router.patch("/update-role", updateRoleJournalist);
 
 router.patch("/update-photo", upload.single('photo'),updatePhotoJournalist);
+
+router.patch("/update-password", updatePasswordJournalist)
 
 export default router;

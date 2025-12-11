@@ -9,6 +9,7 @@ import { updateBioJournalistServices } from "../services/journalist.update.bio.s
 import { updateEmailJournalistServices } from "../services/journalist.update.email.services.js"
 import { updateRoleJournalistServices } from "../services/journalist.update.role.services.js"
 import { updatePhotoJournalistServices } from "../services/journalist.update.photo.services.js"
+import { updatePasswordJournalistServices } from "../services/journalist.update.password.services.js"
 import fs from 'fs-extra';
 
 export const getAllJournalist = async (req, res, next) =>{
@@ -317,3 +318,27 @@ export const updatePhotoJournalist = async (req, res, next) =>{
     }
 
 }
+
+export const updatePasswordJournalist = async (req, res, next) =>{
+
+    const { email, password, newPassword } = req.body;
+
+    try{
+
+        const journalist = await updatePasswordJournalistServices(email, password, newPassword);
+
+        return res.status(200).json({
+            message: "Contraseña cambiada con exito",
+            journalist
+        });
+
+    } catch (error) {
+        console.error(error);
+        
+        if (error.message === "TOKEN_EXPIRED") {
+            return res.status(409).json({ message: "El token ya no es válido" });
+        }
+
+        return res.status(500).json({ message: "Error del servidor al ingresar" });
+    }
+};
