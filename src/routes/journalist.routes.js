@@ -16,7 +16,8 @@ import {
     updateEmailJournalist,
     updateRoleJournalist,
     updatePhotoJournalist,
-    updatePasswordJournalist
+    updatePasswordJournalist,
+    getOneJournalistFilter
 
 } from "../controllers/journalist.controllers.js";
 
@@ -42,6 +43,8 @@ router.patch("/update-role", updateRoleJournalist);
 
 router.patch("/update-photo", upload.single('photo'),updatePhotoJournalist);
 
-router.patch("/update-password", updatePasswordJournalist)
+router.patch("/update-password", updatePasswordJournalist);
+
+router.get("/journalist-filter", getOneJournalistFilter)
 
 export default router;
