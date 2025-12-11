@@ -6,6 +6,7 @@ import { forgetPasswordJournalistServices } from "../services/journalist.forget.
 import { resetPasswordJournalistServices } from "../services/journalist.reset.password.services.js"
 import { updateNameJournalistServices } from "../services/journalist.update.name.services.js"
 import { updateBioJournalistServices } from "../services/journalist.update.bio.services.js"
+import { updateEmailJournalistServices } from "../services/journalist.update.email.services.js"
 
 export const getAllJournalist = async (req, res, next) =>{
 
@@ -190,7 +191,7 @@ export const updateBioJournalist = async (req, res, next) =>{
 
     try{
 
-        const journalist = await updateNameJournalistServices(email, bio, password);
+        const journalist = await updateBioJournalistServices(email, bio, password);
 
         
         return res.status(200).json({
@@ -207,6 +208,40 @@ export const updateBioJournalist = async (req, res, next) =>{
         
         if (error.message === "WRONG_PASSWORD") {
             return res.status(409).json({ message: "Contraseña errónea, pruebe de vuelta" });
+        }
+
+        return res.status(500).json({ message: "Error del servidor al ingresar" });
+    }
+
+}
+
+export const updateEmailJournalist = async (req, res, next) =>{
+
+    const {email, newEmail, password} = req.body;
+
+    try{
+
+        const journalist = await updateEmailJournalistServices(email, newEmail, password);
+
+        
+        return res.status(200).json({
+            message: "Biografia cambiada con exito",
+            journalist
+        });
+
+    }catch (error) {
+        console.error(error);
+        
+        if (error.message === "JOURNALITS_NO_EXIST") {
+            return res.status(404).json({ message: "El periodista no está registrado" });
+        }
+        
+        if (error.message === "WRONG_PASSWORD") {
+            return res.status(409).json({ message: "Contraseña errónea, pruebe de vuelta" });
+        }
+
+        if (error.message === "EMAIL_ALREADY_REGISTERED") {
+            return res.status(409).json({ message: "El email ya está registrado, prueba con otro" });
         }
 
         return res.status(500).json({ message: "Error del servidor al ingresar" });
