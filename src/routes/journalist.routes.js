@@ -9,7 +9,8 @@ import {
     loginJournalist,
     forgetPasswordJournalist,
     resetPasswordJournalist,
-    updateNameJournalist
+    updateNameJournalist,
+    updateBioJournalist
 
 } from "../controllers/journalist.controllers.js";
 
@@ -23,8 +24,10 @@ router.post("/login", loginJournalist)
 
 router.post("/forget-password", forgetPasswordJournalist);
 
-router.post("/reset-password", resetPasswordJournalist)
+router.post("/reset-password", resetPasswordJournalist);
 
-router.post("/update-name", updateNameJournalist)
+router.post("/update-name", updateNameJournalist);
+
+router.post("/update-bio", updateBioJournalist);
 
 export default router;

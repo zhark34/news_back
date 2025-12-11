@@ -5,6 +5,7 @@ import { loginJournalistServices } from "../services/journalist.login.services.j
 import { forgetPasswordJournalistServices } from "../services/journalist.forget.password.services.js"
 import { resetPasswordJournalistServices } from "../services/journalist.reset.password.services.js"
 import { updateNameJournalistServices } from "../services/journalist.update.name.services.js"
+import { updateBioJournalistServices } from "../services/journalist.update.bio.services.js"
 
 export const getAllJournalist = async (req, res, next) =>{
 
@@ -164,6 +165,36 @@ export const updateNameJournalist = async (req, res, next) =>{
         
         return res.status(200).json({
             message: "Nombre cambiado con exito",
+            journalist
+        });
+
+    }catch (error) {
+        console.error(error);
+        
+        if (error.message === "JOURNALITS_NO_EXIST") {
+            return res.status(404).json({ message: "El periodista no está registrado" });
+        }
+        
+        if (error.message === "WRONG_PASSWORD") {
+            return res.status(409).json({ message: "Contraseña errónea, pruebe de vuelta" });
+        }
+
+        return res.status(500).json({ message: "Error del servidor al ingresar" });
+    }
+
+}
+
+export const updateBioJournalist = async (req, res, next) =>{
+
+    const {email, bio, password} = req.body;
+
+    try{
+
+        const journalist = await updateNameJournalistServices(email, bio, password);
+
+        
+        return res.status(200).json({
+            message: "Biografia cambiada con exito",
             journalist
         });
 
