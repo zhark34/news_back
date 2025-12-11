@@ -4,6 +4,7 @@ import { createJournalistServices } from "../services/journalist.create.services
 import { loginJournalistServices } from "../services/journalist.login.services.js"
 import { forgetPasswordJournalistServices } from "../services/journalist.forget.password.services.js"
 import { resetPasswordJournalistServices } from "../services/journalist.reset.password.services.js"
+import { updateNameJournalistServices } from "../services/journalist.update.name.services.js"
 
 export const getAllJournalist = async (req, res, next) =>{
 
@@ -150,3 +151,34 @@ export const resetPasswordJournalist = async (req, res, next) =>{
         return res.status(500).json({ message: "Error del servidor al ingresar" });
     }
 };
+
+
+export const updateNameJournalist = async (req, res, next) =>{
+
+    const {email, name, password} = req.body;
+
+    try{
+
+        const journalist = await updateNameJournalistServices(email, name, password);
+
+        
+        return res.status(200).json({
+            message: "Nombre cambiado con exito",
+            journalist
+        });
+
+    }catch (error) {
+        console.error(error);
+        
+        if (error.message === "JOURNALITS_NO_EXIST") {
+            return res.status(404).json({ message: "El periodista no está registrado" });
+        }
+        
+        if (error.message === "WRONG_PASSWORD") {
+            return res.status(409).json({ message: "Contraseña errónea, pruebe de vuelta" });
+        }
+
+        return res.status(500).json({ message: "Error del servidor al ingresar" });
+    }
+
+}
