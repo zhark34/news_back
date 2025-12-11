@@ -24,16 +24,16 @@ router.post("/create", createJournalist);
 
 router.post("/login", loginJournalist)
 
-router.post("/forget-password", forgetPasswordJournalist);
+router.patch("/forget-password", forgetPasswordJournalist);
 
-router.post("/reset-password", resetPasswordJournalist);
+router.patch("/reset-password", resetPasswordJournalist);
 
-router.post("/update-name", updateNameJournalist);
+router.patch("/update-name", updateNameJournalist);
 
-router.post("/update-bio", updateBioJournalist);
+router.patch("/update-bio", updateBioJournalist);
 
-router.post("/update-email", updateEmailJournalist);
+router.patch("/update-email", updateEmailJournalist);
 
-router.post("/update-role", updateRoleJournalist)
+router.patch("/update-role", updateRoleJournalist)
 
 export default router;
