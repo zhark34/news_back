@@ -10,12 +10,13 @@ const Categories = sequelize.define(
             primaryKey: true,
             autoIncrement: true,
         },
+        category_id: {
+            type: DataTypes.BIGINT,
+            allowNull: false,
+            unique: true
+        },
         category: {
             type: DataTypes.STRING(50),
-            allowNull: false,
-        },
-        journalist_id: {
-            type: DataTypes.BIGINT,
             allowNull: false,
         },
 
