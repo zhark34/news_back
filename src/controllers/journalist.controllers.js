@@ -275,3 +275,4 @@ export const updateRoleJournalist = async (req, res, next) =>{
     }
 
 }
+
