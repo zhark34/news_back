@@ -14,6 +14,10 @@ const Journalist = sequelize.define(
             type: DataTypes.STRING(250),
             allowNull: false,
         },
+        photo_profile: {
+            type: DataTypes.STRING(),
+            allowNull: true,
+        },
         bio: {
             type: DataTypes.TEXT(1000),
             allowNull: false,
