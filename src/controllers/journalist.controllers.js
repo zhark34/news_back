@@ -10,6 +10,7 @@ import { updateEmailJournalistServices } from "../services/journalist.update.ema
 import { updateRoleJournalistServices } from "../services/journalist.update.role.services.js"
 import { updatePhotoJournalistServices } from "../services/journalist.update.photo.services.js"
 import { updatePasswordJournalistServices } from "../services/journalist.update.password.services.js"
+import { getOneJournalistFilterServices } from "../services/journalist.get.filter.services.js"
 import fs from 'fs-extra';
 
 export const getAllJournalist = async (req, res, next) =>{
@@ -344,5 +345,36 @@ export const updatePasswordJournalist = async (req, res, next) =>{
         }
 
         return res.status(500).json({ message: "Error del servidor al ingresar" });
+    }
+};
+
+
+export const getOneJournalistFilter = async (req, res, next) =>{
+
+    const filters = req.query;
+
+    if (Object.keys(filters).length === 0) {
+        return res.status(400).json({ 
+            message: "Debes enviar al menos un parámetro de búsqueda (ej: ?name=Mariano o ?journalist_id=...)" 
+        });
+    }
+
+    try{
+
+        const journalist = await getOneJournalistFilterServices(filters);
+
+        return res.status(200).json({
+            message: "OK",
+            journalist
+        });
+
+    } catch (error) {
+        console.error(error);
+
+        if (error.message === "NO_JOURNALIST_FOUND") {
+            return res.status(404).json({ message: "No se encontró el periodista con la id indicada" });
+        }
+
+        return res.status(500).json({ message: "Error al obtener los periodistas" });
     }
 };
