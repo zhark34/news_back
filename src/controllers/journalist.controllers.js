@@ -12,6 +12,7 @@ import { updatePhotoJournalistServices } from "../services/journalist.update.pho
 import { updatePasswordJournalistServices } from "../services/journalist.update.password.services.js"
 import { getOneJournalistFilterServices } from "../services/journalist.get.filter.services.js"
 import { validateJournalistServices } from "../services/journalist.validate.services.js"
+import { deleteJournalistServices } from "../services/journalist.delete.services.js"
 import fs from 'fs-extra';
 
 export const getAllJournalist = async (req, res, next) =>{
@@ -402,6 +403,40 @@ export const validateJournalistFilter = async (req, res, next) =>{
 
         if (error.message === "NO_JOURNALIST_FOUND") {
             return res.status(404).json({ message: "No se encontró el periodista con la id indicada" });
+        }
+
+        return res.status(500).json({ message: "Error al obtener los periodistas" });
+    }
+};
+
+export const deleteJournalist = async (req, res, next) =>{
+
+    const adminId = req.user.journalist_id;
+
+    const email = req.user.email;
+
+    const role = req.user.role;
+
+    const { id } = req.params;
+
+    try{
+
+        const journalist = await deleteJournalistServices(adminId, id);
+
+        return res.status(200).json({
+            message: "OK",
+            journalist
+        });
+
+    } catch (error) {
+        console.error(error);
+
+        if (error.message === "NO_JOURNALIST_FOUND") {
+            return res.status(404).json({ message: "No se encontró el periodista con la id indicada" });
+        }
+
+        if (error.message === "USER_NO_AUTHORIZED") {
+            return res.status(401).json({ message: "No se encontró el periodista con la id indicada" });
         }
 
         return res.status(500).json({ message: "Error al obtener los periodistas" });
