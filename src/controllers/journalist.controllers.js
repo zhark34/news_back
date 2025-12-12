@@ -334,11 +334,13 @@ export const updatePhotoJournalist = async (req, res, next) =>{
 
 export const updatePasswordJournalist = async (req, res, next) =>{
 
-    const { email, password, newPassword } = req.body;
+    const { password, newPassword } = req.body;
+
+    const id = req.user.journalist_id;
 
     try{
 
-        const journalist = await updatePasswordJournalistServices(email, password, newPassword);
+        const journalist = await updatePasswordJournalistServices(id, password, newPassword);
 
         return res.status(200).json({
             message: "Contraseña cambiada con exito",
