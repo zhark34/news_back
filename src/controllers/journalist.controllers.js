@@ -367,12 +367,6 @@ export const getOneJournalistFilter = async (req, res, next) =>{
 
     const filters = req.query;
 
-    if (Object.keys(filters).length === 0) {
-        return res.status(400).json({ 
-            message: "Debes enviar al menos un parámetro de búsqueda (ej: ?name=Mariano o ?journalist_id=...)" 
-        });
-    }
-
     try{
 
         const journalist = await getOneJournalistFilterServices(filters);
