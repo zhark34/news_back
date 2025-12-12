@@ -264,13 +264,13 @@ export const updateEmailJournalist = async (req, res, next) =>{
 
 export const updateRoleJournalist = async (req, res, next) =>{
 
-    const {journalist_id} = req.body;
+    const {id} = req.params;
 
     const role = req.user.role;
 
     try{
 
-        const journalist = await updateRoleJournalistServices(journalist_id, role);
+        const journalist = await updateRoleJournalistServices(id, role);
 
         
         return res.status(200).json({
