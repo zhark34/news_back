@@ -264,7 +264,9 @@ export const updateEmailJournalist = async (req, res, next) =>{
 
 export const updateRoleJournalist = async (req, res, next) =>{
 
-    const {journalist_id, role} = req.body;
+    const {journalist_id} = req.body;
+
+    const role = req.user.role;
 
     try{
 
