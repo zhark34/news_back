@@ -413,10 +413,6 @@ export const deleteJournalist = async (req, res, next) =>{
 
     const adminId = req.user.journalist_id;
 
-    const email = req.user.email;
-
-    const role = req.user.role;
-
     const { id } = req.params;
 
     try{
