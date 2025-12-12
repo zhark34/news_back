@@ -25,17 +25,25 @@ import {
 
 import { tokenMiddleware } from "../middlewares/token.middlewares.js";
 
-router.get("/journalist", getAllJournalist);
+// AUTH
 
-router.get("/journalist/:id", getOneJournalist);
+router.post("/register", createJournalist);
 
-router.post("/create", createJournalist);
-
-router.post("/login", loginJournalist)
+router.post("/login", loginJournalist);
 
 router.patch("/forget-password", forgetPasswordJournalist);
 
 router.patch("/reset-password", resetPasswordJournalist);
+
+// PUBLIC
+
+router.get("/journalist", getOneJournalistFilter);
+
+router.get("/journalist/:id", getOneJournalist);
+
+// PRIVATE
+
+router.get("/journalist-validate", tokenMiddleware, validateJournalistFilter);
 
 router.patch("/update-name", tokenMiddleware, updateNameJournalist);
 
@@ -43,15 +51,13 @@ router.patch("/update-bio", tokenMiddleware, updateBioJournalist);
 
 router.patch("/update-email", tokenMiddleware, updateEmailJournalist);
 
-router.patch("/update-role", tokenMiddleware, updateRoleJournalist);
-
 router.patch("/update-photo", tokenMiddleware, upload.single('photo'),updatePhotoJournalist);
 
 router.patch("/update-password", tokenMiddleware, updatePasswordJournalist);
 
-router.get("/journalist-filter", getOneJournalistFilter);
+// ADMIN
 
-router.get("/journalist-validate", tokenMiddleware, validateJournalistFilter);
+router.patch("/update-role", tokenMiddleware, updateRoleJournalist);
 
 router.delete("/delete/:id", tokenMiddleware, deleteJournalist);
 
