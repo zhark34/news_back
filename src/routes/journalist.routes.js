@@ -47,7 +47,7 @@ router.patch("/update-role", tokenMiddleware, updateRoleJournalist);
 
 router.patch("/update-photo", tokenMiddleware, upload.single('photo'),updatePhotoJournalist);
 
-router.patch("/update-password", updatePasswordJournalist);
+router.patch("/update-password", tokenMiddleware, updatePasswordJournalist);
 
 router.get("/journalist-filter", getOneJournalistFilter);
 
