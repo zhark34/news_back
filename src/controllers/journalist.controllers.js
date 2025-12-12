@@ -439,6 +439,10 @@ export const deleteJournalist = async (req, res, next) =>{
             return res.status(401).json({ message: "No se encontró el periodista con la id indicada" });
         }
 
+        if (error.message === "JOURNALIST_TO_BE_REMOVED_NOT_FOUND") {
+            return res.status(401).json({ message: "No se encontró el periodista a eliminar" });
+        }
+
         return res.status(500).json({ message: "Error al obtener los periodistas" });
     }
 };
