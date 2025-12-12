@@ -292,7 +292,9 @@ export const updateRoleJournalist = async (req, res, next) =>{
 
 export const updatePhotoJournalist = async (req, res, next) =>{
 
-    const {email, password} = req.body;
+    const {password} = req.body;
+
+    const id = req.user.journalist_id;
 
     const photo = req.file;
 
@@ -302,7 +304,7 @@ export const updatePhotoJournalist = async (req, res, next) =>{
             return res.status(400).json({ message: "No se ha proporcionado ninguna imagen." });
         }
 
-        const journalist = await updatePhotoJournalistServices(email, password, photo.path);
+        const journalist = await updatePhotoJournalistServices(id, password, photo.path);
 
         
         return res.status(200).json({
