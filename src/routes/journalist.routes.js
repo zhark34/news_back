@@ -43,7 +43,7 @@ router.patch("/update-bio", tokenMiddleware, updateBioJournalist);
 
 router.patch("/update-email", tokenMiddleware, updateEmailJournalist);
 
-router.patch("/update-role", updateRoleJournalist);
+router.patch("/update-role", tokenMiddleware, updateRoleJournalist);
 
 router.patch("/update-photo", upload.single('photo'),updatePhotoJournalist);
 
