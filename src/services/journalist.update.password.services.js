@@ -1,10 +1,12 @@
 import Journalist from "../models/journalist.js"
 import { validatePassword } from "../utils/validate.password.js";
 import { hashPassword } from "../utils/hash.password.js";
+import { sendEmail } from "../config/nodemailer.js";
+import { passwordChangedEmail } from "../utils/email_templates/email.recovery.password.js";
 
-export const updatePasswordJournalistServices = async (email, password, newPassword) =>{
+export const updatePasswordJournalistServices = async (id, password, newPassword) =>{
 
-    const checkJournalist = await Journalist.findOne({where: { email }})
+    const checkJournalist = await Journalist.findOne({where: { journalist_id: id }})
 
     if(!checkJournalist){
 
@@ -25,6 +27,14 @@ export const updatePasswordJournalistServices = async (email, password, newPassw
     checkJournalist.password = newPw;
 
     await checkJournalist.save();
+
+    sendEmail({
+
+        to: checkJournalist.email,
+        subject: "Alerta de seguridad",
+        html: passwordChangedEmail(checkJournalist.name, "lshjfkhasdfg/ckeck")
+
+    })
 
     return "Actualizado"
 
