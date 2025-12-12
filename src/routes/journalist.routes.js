@@ -27,38 +27,38 @@ import { tokenMiddleware } from "../middlewares/token.middlewares.js";
 
 // AUTH
 
-router.post("/register", createJournalist);
-
 router.post("/login", loginJournalist);
 
-router.patch("/forget-password", forgetPasswordJournalist);
+router.post("/register", createJournalist);
 
-router.patch("/reset-password", resetPasswordJournalist);
+router.patch("/password/forgot", forgetPasswordJournalist);
 
-// PUBLIC
-
-router.get("/journalist", getOneJournalistFilter);
-
-router.get("/journalist/:id", getOneJournalist);
+router.patch("/password/reset", resetPasswordJournalist);
 
 // PRIVATE
 
-router.get("/journalist-validate", tokenMiddleware, validateJournalistFilter);
+router.get("/me/validate", tokenMiddleware, validateJournalistFilter);
 
-router.patch("/update-name", tokenMiddleware, updateNameJournalist);
+router.patch("/me/name", tokenMiddleware, updateNameJournalist);
 
-router.patch("/update-bio", tokenMiddleware, updateBioJournalist);
+router.patch("/me/bio", tokenMiddleware, updateBioJournalist);
 
-router.patch("/update-email", tokenMiddleware, updateEmailJournalist);
+router.patch("/me/email", tokenMiddleware, updateEmailJournalist);
 
-router.patch("/update-photo", tokenMiddleware, upload.single('photo'),updatePhotoJournalist);
+router.patch("/me/photo", tokenMiddleware, upload.single('photo'), updatePhotoJournalist);
 
-router.patch("/update-password", tokenMiddleware, updatePasswordJournalist);
+router.patch("/me/password", tokenMiddleware, updatePasswordJournalist);
 
 // ADMIN
 
-router.patch("/update-role", tokenMiddleware, updateRoleJournalist);
+router.patch("/:id/role", tokenMiddleware, updateRoleJournalist);
 
-router.delete("/delete/:id", tokenMiddleware, deleteJournalist);
+router.delete("/:id", tokenMiddleware, deleteJournalist);
+
+// PUBLIC
+
+router.get("/", getOneJournalistFilter);
+
+router.get("/:id", getOneJournalist);
 
 export default router;
