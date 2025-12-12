@@ -6,6 +6,11 @@ import SocialNetworks from '../models/social.networks.js'
 
 export const getOneJournalistFilterServices = async (filters) => {
 
+    const allJournalist = await Journalist.findAll();
+
+    if (Object.keys(filters).length === 0) {
+        return allJournalist
+    }
 
     const journalistWhere = {};
 
