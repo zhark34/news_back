@@ -31,7 +31,7 @@ router.post("/login", loginJournalist);
 
 router.post("/register", createJournalist);
 
-router.patch("/password/forgot", forgetPasswordJournalist);
+router.patch("/password/forget", forgetPasswordJournalist);
 
 router.patch("/password/reset", resetPasswordJournalist);
 
