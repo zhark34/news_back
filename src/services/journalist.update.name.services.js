@@ -1,9 +1,9 @@
 import Journalist from "../models/journalist.js"
 import { validatePassword } from "../utils/validate.password.js";
 
-export const updateNameJournalistServices = async (email, name, password) =>{
+export const updateNameJournalistServices = async (id, name, password) =>{
 
-    const checkJournalist = await Journalist.findOne({where: { email }})
+    const checkJournalist = await Journalist.findOne({where: { journalist_id: id }})
 
     if(!checkJournalist){
 

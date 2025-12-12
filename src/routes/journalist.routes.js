@@ -37,7 +37,7 @@ router.patch("/forget-password", forgetPasswordJournalist);
 
 router.patch("/reset-password", resetPasswordJournalist);
 
-router.patch("/update-name", updateNameJournalist);
+router.patch("/update-name", tokenMiddleware, updateNameJournalist);
 
 router.patch("/update-bio", updateBioJournalist);
 

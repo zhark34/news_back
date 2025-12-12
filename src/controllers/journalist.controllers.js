@@ -164,11 +164,13 @@ export const resetPasswordJournalist = async (req, res, next) =>{
 
 export const updateNameJournalist = async (req, res, next) =>{
 
-    const {email, name, password} = req.body;
+    const {name, password} = req.body;
+
+    const id = req.user.journalist_id;
 
     try{
 
-        const journalist = await updateNameJournalistServices(email, name, password);
+        const journalist = await updateNameJournalistServices(id, name, password);
 
         
         return res.status(200).json({
