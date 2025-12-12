@@ -196,11 +196,13 @@ export const updateNameJournalist = async (req, res, next) =>{
 
 export const updateBioJournalist = async (req, res, next) =>{
 
-    const {email, bio, password} = req.body;
+    const {bio, password} = req.body;
+
+    const id = req.user.journalist_id;
 
     try{
 
-        const journalist = await updateBioJournalistServices(email, bio, password);
+        const journalist = await updateBioJournalistServices(id, bio, password);
 
         
         return res.status(200).json({
