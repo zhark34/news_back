@@ -4,9 +4,9 @@ import { uploadImage } from "../config/cloudinary.js";
 import { v2 as cloudinary } from "cloudinary";
 import fs from 'fs-extra';
 
-export const updatePhotoJournalistServices = async (email, password, photoPath) =>{
+export const updatePhotoJournalistServices = async (id, password, photoPath) =>{
 
-    const checkJournalist = await Journalist.findOne({where: { email }})
+    const checkJournalist = await Journalist.findOne({where: { journalist_id: id }})
 
     if(!checkJournalist){
 
