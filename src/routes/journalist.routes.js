@@ -18,7 +18,8 @@ import {
     updatePhotoJournalist,
     updatePasswordJournalist,
     getOneJournalistFilter,
-    validateJournalistFilter
+    validateJournalistFilter,
+    deleteJournalist
 
 } from "../controllers/journalist.controllers.js";
 
@@ -51,5 +52,7 @@ router.patch("/update-password", updatePasswordJournalist);
 router.get("/journalist-filter", getOneJournalistFilter);
 
 router.get("/journalist-validate", tokenMiddleware, validateJournalistFilter);
+
+router.delete("/delete/:id", tokenMiddleware, deleteJournalist);
 
 export default router;
