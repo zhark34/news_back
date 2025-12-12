@@ -45,7 +45,7 @@ router.patch("/update-email", tokenMiddleware, updateEmailJournalist);
 
 router.patch("/update-role", tokenMiddleware, updateRoleJournalist);
 
-router.patch("/update-photo", upload.single('photo'),updatePhotoJournalist);
+router.patch("/update-photo", tokenMiddleware, upload.single('photo'),updatePhotoJournalist);
 
 router.patch("/update-password", updatePasswordJournalist);
 
