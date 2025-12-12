@@ -41,7 +41,7 @@ router.patch("/update-name", tokenMiddleware, updateNameJournalist);
 
 router.patch("/update-bio", tokenMiddleware, updateBioJournalist);
 
-router.patch("/update-email", updateEmailJournalist);
+router.patch("/update-email", tokenMiddleware, updateEmailJournalist);
 
 router.patch("/update-role", updateRoleJournalist);
 

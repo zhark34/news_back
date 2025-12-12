@@ -228,11 +228,13 @@ export const updateBioJournalist = async (req, res, next) =>{
 
 export const updateEmailJournalist = async (req, res, next) =>{
 
-    const {email, newEmail, password} = req.body;
+    const {newEmail, password} = req.body;
+
+    const id = req.user.journalist_id;
 
     try{
 
-        const journalist = await updateEmailJournalistServices(email, newEmail, password);
+        const journalist = await updateEmailJournalistServices(id, newEmail, password);
 
         
         return res.status(200).json({
