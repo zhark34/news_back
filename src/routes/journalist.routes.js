@@ -39,7 +39,7 @@ router.patch("/reset-password", resetPasswordJournalist);
 
 router.patch("/update-name", tokenMiddleware, updateNameJournalist);
 
-router.patch("/update-bio", updateBioJournalist);
+router.patch("/update-bio", tokenMiddleware, updateBioJournalist);
 
 router.patch("/update-email", updateEmailJournalist);
 
