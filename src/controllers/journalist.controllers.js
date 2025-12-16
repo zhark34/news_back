@@ -158,7 +158,7 @@ export const forgetPasswordJournalist = async (req, res, next) =>{
             return res.status(404).json({ message: "El periodista no está registrado" });
         }
         
-        return res.status(500).json({ message: "Error del servidor al ingresar" });
+        return res.status(500).json({ message: "Error del servidor al enviar el mail" });
     }
 };
 
@@ -182,7 +182,7 @@ export const resetPasswordJournalist = async (req, res, next) =>{
             return res.status(409).json({ message: "El token ya no es válido" });
         }
 
-        return res.status(500).json({ message: "Error del servidor al ingresar" });
+        return res.status(500).json({ message: "Error del servidor al restablecer la contraseña" });
     }
 };
 
@@ -282,7 +282,7 @@ export const updateEmailJournalist = async (req, res, next) =>{
             return res.status(409).json({ message: "El email ya está registrado, prueba con otro" });
         }
 
-        return res.status(500).json({ message: "Error del servidor al ingresar" });
+        return res.status(500).json({ message: "Error del servidor al actualizar el email" });
     }
 
 }
@@ -310,7 +310,7 @@ export const updateRoleJournalist = async (req, res, next) =>{
             return res.status(404).json({ message: "El periodista no está registrado" });
         }
 
-        return res.status(500).json({ message: "Error del servidor al ingresar" });
+        return res.status(500).json({ message: "Error del servidor al actualizar el rol" });
     }
 
 }
@@ -326,7 +326,7 @@ export const updatePhotoJournalist = async (req, res, next) =>{
     try{
 
         if (!photo) {
-            return res.status(400).json({ message: "No se ha proporcionado ninguna imagen." });
+            return res.status(400).json({ message: "No se ha proporcionado ninguna imagen" });
         }
 
         const journalist = await updatePhotoJournalistServices(id, password, photo.path);
@@ -383,7 +383,7 @@ export const updatePasswordJournalist = async (req, res, next) =>{
             return res.status(409).json({ message: "Contraseña errónea, pruebe de vuelta" });
         }
 
-        return res.status(500).json({ message: "Error del servidor al ingresar" });
+        return res.status(500).json({ message: "Error del servidor al actualizar contraseña" });
     }
 };
 
@@ -464,7 +464,7 @@ export const deleteJournalist = async (req, res, next) =>{
         const journalist = await deleteJournalistServices(adminId, id);
 
         return res.status(200).json({
-            message: "OK",
+            message: "Periodista eliminado",
             journalist
         });
 
@@ -476,14 +476,14 @@ export const deleteJournalist = async (req, res, next) =>{
         }
 
         if (error.message === "USER_NO_AUTHORIZED") {
-            return res.status(401).json({ message: "No se encontró el periodista con la id indicada" });
+            return res.status(401).json({ message: "No tenes el rango para eliminar periodista" });
         }
 
         if (error.message === "JOURNALIST_TO_BE_REMOVED_NOT_FOUND") {
             return res.status(401).json({ message: "No se encontró el periodista a eliminar" });
         }
 
-        return res.status(500).json({ message: "Error al obtener los periodistas" });
+        return res.status(500).json({ message: "Error al eliminar el periodista" });
     }
 };
 
@@ -498,7 +498,7 @@ export const logoutJournalist = async (req, res, next) =>{
         const journalist = await logoutJournalistServices(id, refreshToken);
 
         return res.status(200).json({
-            message: "OK",
+            message: "Sesion cerrada",
             journalist
         });
 
@@ -515,6 +515,8 @@ export const logoutJournalist = async (req, res, next) =>{
         if (error.message === "ID_DOES_NOT_MATCH") {
             return res.status(403).json({message: "La sesión no coincide con el usuario"});
         }
+
+        return res.status(500).json({ message: "Error al cerrar sesion" });
 
     }
 
