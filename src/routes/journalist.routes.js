@@ -19,7 +19,8 @@ import {
     updatePasswordJournalist,
     getOneJournalistFilter,
     validateJournalistFilter,
-    deleteJournalist
+    deleteJournalist,
+    logoutJournalist
 
 } from "../controllers/journalist.controllers.js";
 
@@ -34,6 +35,8 @@ router.post("/register", createJournalist);
 router.patch("/password/forget", forgetPasswordJournalist);
 
 router.patch("/password/reset", resetPasswordJournalist);
+
+router.post("/logout", tokenMiddleware, logoutJournalist)
 
 // PRIVATE
 
