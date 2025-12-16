@@ -14,18 +14,23 @@
   "dependencies": {
     "bcrypt": "^6.0.0",
     "cloudinary": "^2.8.0",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
     "express-rate-limit": "^8.2.1",
+    "express-useragent": "^2.0.2",
     "fs-extra": "^11.3.2",
     "generate-password": "^1.7.1",
+    "geoip-lite": "^1.4.10",
     "jsonwebtoken": "^9.0.3",
     "multer": "^2.0.2",
+    "nanoid": "^5.1.6",
     "nodemailer": "^7.0.11",
     "nodemon": "^3.1.11",
     "pg": "^8.16.3",
     "pg-hstore": "^2.3.4",
+    "request-ip": "^3.3.0",
     "sequelize": "^6.37.7"
   }
 }
