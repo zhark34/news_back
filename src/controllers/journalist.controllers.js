@@ -90,8 +90,6 @@ export const createJournalist = async (req, res, next) =>{
 
 export const loginJournalist = async (req, res, next) =>{
 
-    const isProduction = false;
-
     const { email, password } = req.body;
 
     const device = getDeviceInfo(req);
