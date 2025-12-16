@@ -88,7 +88,7 @@ export const updateSocialNetworkJournalist = async (req, res, next) =>{
             return res.status(401).json({message: "No existe la red social que se quiere actualizar"});
         }
 
-        return res.status(500).json({ message: "Error al agregar la red social" });
+        return res.status(500).json({ message: "Error al actualizar la red social" });
 
     }
 
@@ -120,10 +120,10 @@ export const deleteSocialNetworkJournalist = async (req, res, next) =>{
             return res.status(401).json({ message: "Contraseña errónea, pruebe de vuelta" });
         }
         if (error.message === "SOCIAL_NETWORK_NO_EXIST") {
-            return res.status(401).json({message: "No existe la red social que se quiere actualizar"});
+            return res.status(401).json({message: "No existe la red social que se quiere eliminar"});
         }
 
-        return res.status(500).json({ message: "Error al agregar la red social" });
+        return res.status(500).json({ message: "Error al eliminar la red social" });
 
     }
 
