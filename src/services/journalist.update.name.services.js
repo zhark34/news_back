@@ -23,6 +23,6 @@ export const updateNameJournalistServices = async (id, name, password) =>{
 
     await checkJournalist.save();
 
-    return "Actualizado"
+    return name
 
 }
