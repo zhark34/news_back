@@ -12,7 +12,10 @@ import { updatePhotoJournalistServices } from "../services/journalist.update.pho
 import { updatePasswordJournalistServices } from "../services/journalist.update.password.services.js"
 import { getOneJournalistFilterServices } from "../services/journalist.get.filter.services.js"
 import { validateJournalistServices } from "../services/journalist.validate.services.js"
+import { logoutJournalistServices } from "../services/journalist.logout.services.js"
 import { deleteJournalistServices } from "../services/journalist.delete.services.js"
+import { getDeviceInfo } from "../utils/get.user.agent.js"
+import { getIp } from "../utils/get.user.ip.js"
 import fs from 'fs-extra';
 
 export const getAllJournalist = async (req, res, next) =>{
@@ -87,15 +90,39 @@ export const createJournalist = async (req, res, next) =>{
 
 export const loginJournalist = async (req, res, next) =>{
 
+    const isProduction = false;
+
     const { email, password } = req.body;
+
+    const device = getDeviceInfo(req);
+
+    const {ip, country, province, city} = getIp(req);
 
     try{
 
-        const journalist = await loginJournalistServices(email, password);
+        const journalist = await loginJournalistServices(email, password, device, ip, country, province, city);
+
+        res.cookie('token', journalist.token, {
+            httpOnly: true,
+            secure: false,
+            sameSite: 'lax',
+            path: '/',
+            maxAge: 3600000
+        });
+        res.cookie('refresh_token', journalist.refresh_token, {
+            httpOnly: true,
+            secure: false,
+            sameSite: 'lax',
+            path: '/',
+            maxAge: 7 * 24 * 60 * 60 * 1000
+        });
 
         return res.status(200).json({
             message: "Periodista autenticado con éxito",
-            journalist
+            id: journalist.id,
+            name: journalist.name,
+            role: journalist.role,
+            photo: journalist.photo
         });
 
     } catch (error) {
@@ -189,7 +216,7 @@ export const updateNameJournalist = async (req, res, next) =>{
             return res.status(409).json({ message: "Contraseña errónea, pruebe de vuelta" });
         }
 
-        return res.status(500).json({ message: "Error del servidor al ingresar" });
+        return res.status(500).json({ message: "Error del servidor al actualizar el nombre" });
     }
 
 }
@@ -221,7 +248,7 @@ export const updateBioJournalist = async (req, res, next) =>{
             return res.status(409).json({ message: "Contraseña errónea, pruebe de vuelta" });
         }
 
-        return res.status(500).json({ message: "Error del servidor al ingresar" });
+        return res.status(500).json({ message: "Error del servidor al actualizar la biograia" });
     }
 
 }
@@ -323,7 +350,7 @@ export const updatePhotoJournalist = async (req, res, next) =>{
             return res.status(401).json({ message: "Contraseña errónea, pruebe de vuelta" });
         }
 
-        return res.status(500).json({ message: "Error del servidor al ingresar" });
+        return res.status(500).json({ message: "Error del servidor al cargar la foto" });
     }finally {
         if (req.file && req.file.path) {
             await fs.unlink(req.file.path).catch(err => console.error("Error borrando temporal:", err));
@@ -391,13 +418,11 @@ export const validateJournalistFilter = async (req, res, next) =>{
 
     const id = req.user.journalist_id;
 
-    const email = req.user.email;
-
-    const role = req.user.role;
+    const refreshToken = req.cookies.refresh_token
 
     try{
 
-        const journalist = await validateJournalistServices(id, email, role);
+        const journalist = await validateJournalistServices(id, refreshToken);
 
         return res.status(200).json({
             message: "OK",
@@ -405,13 +430,28 @@ export const validateJournalistFilter = async (req, res, next) =>{
         });
 
     } catch (error) {
-        console.error(error);
 
-        if (error.message === "NO_JOURNALIST_FOUND") {
-            return res.status(404).json({ message: "No se encontró el periodista con la id indicada" });
+        if (error.message === "JOURNALIST_NOT_FOUND") {
+            return res.status(404).json({message: "No se encontró el periodista con la ID indicada"});
         }
 
-        return res.status(500).json({ message: "Error al obtener los periodistas" });
+        if (error.message === "INVALID_REFRESH_TOKEN") {
+            return res.status(401).json({message: "Refresh token inválido"});
+        }
+
+        if (error.message === "REFRESH_TOKEN_EXPIRED") {
+            return res.status(401).json({message: "El refresh token expiró"});
+        }
+
+        if (error.message === "DISABLED_TOKEN") {
+            return res.status(401).json({message: "El refresh token fue revocado"});
+        }
+
+        if (error.message === "ID_DOES_NOT_MATCH") {
+            return res.status(403).json({message: "La sesión no coincide con el usuario"});
+        }
+
+        return res.status(500).json({ message: "Error al validar el periodista" });
     }
 };
 
@@ -448,3 +488,37 @@ export const deleteJournalist = async (req, res, next) =>{
         return res.status(500).json({ message: "Error al obtener los periodistas" });
     }
 };
+
+export const logoutJournalist = async (req, res, next) =>{
+
+    const id = req.user.journalist_id;
+
+    const refreshToken = req.cookies.refresh_token
+
+    try{
+
+        const journalist = await logoutJournalistServices(id, refreshToken);
+
+        return res.status(200).json({
+            message: "OK",
+            journalist
+        });
+
+    } catch (error) {
+
+        if (error.message === "JOURNALIST_NOT_FOUND") {
+            return res.status(404).json({message: "No se encontró el periodista con la ID indicada"});
+        }
+
+        if (error.message === "INVALID_REFRESH_TOKEN") {
+            return res.status(401).json({message: "Refresh token inválido"});
+        }
+
+        if (error.message === "ID_DOES_NOT_MATCH") {
+            return res.status(403).json({message: "La sesión no coincide con el usuario"});
+        }
+
+    }
+
+}
+
