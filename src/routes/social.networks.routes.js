@@ -5,7 +5,8 @@ import {
 
     getOneJournalistSocialNetwork,
     createSocialNetworkJournalist,
-    updateSocialNetworkJournalist
+    updateSocialNetworkJournalist,
+    deleteSocialNetworkJournalist
 
 } from '../controllers/social.networks.controllers.js'
 
@@ -16,5 +17,7 @@ router.get("/:id", getOneJournalistSocialNetwork);
 router.post("/me/create", tokenMiddleware, createSocialNetworkJournalist);
 
 router.patch("/me/update", tokenMiddleware, updateSocialNetworkJournalist);
+
+router.delete("/me/delete/:id", tokenMiddleware, deleteSocialNetworkJournalist);
 
 export default router;
