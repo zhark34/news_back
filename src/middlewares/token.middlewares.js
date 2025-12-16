@@ -1,23 +1,34 @@
 import {validateToken} from '../utils/validate.token.js'
+import Session from '../models/sessions.js';
 
-export const tokenMiddleware = (req, res, next) => {
-    const authHeader = req.headers.authorization;
+export const tokenMiddleware = async (req, res, next) => {
 
-    if (!authHeader) {
+    const token = req.cookies.token;
+
+    if (!token) {
         return res.status(401).json({ message: "No estás autorizado (falta token)" });
     }
-
-    const parts = authHeader.split(" ");
-
-    if (parts.length !== 2 || parts[0] !== "Bearer") {
-        return res.status(401).json({ message: "Formato de token inválido" });
-    }
-
-    const token = parts[1];
-
+    
     try {
         const decoded = validateToken(token);
+
+        if (!decoded.id_token) {
+            return res.status(401).json({ message: "Token sin sesión asociada" });
+        }
+
+        const session = await Session.findOne({
+            where: {
+                id_token: decoded.id_token,
+                revoked: false
+            }
+        });
+
+        if (!session) {
+            return res.status(401).json({ message: "Sesión inválida o expirada" });
+        }
+
         req.user = decoded;
+
         next();
 
     } catch (error) {
