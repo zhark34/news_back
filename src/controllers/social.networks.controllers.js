@@ -33,8 +33,6 @@ export const createSocialNetworkJournalist = async (req, res, next) =>{
 
     const { social_network, link_social_network, password } = req.body;
 
-    console.log(social_network, link_social_network)
-
     try {
 
         const createSocialNetwork = await createSocialNetworkJournalistService(journalist_id, social_network, link_social_network, password);
