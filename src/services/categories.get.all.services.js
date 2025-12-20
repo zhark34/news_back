@@ -7,7 +7,7 @@ export const getAllCategoriesServices = async () =>{
 
     if(allCategories.length === 0){
 
-        throw new Error("NO_JOURNALISTS_FOUND");
+        throw new Error("NO_CATEGORIES_FOUND");
 
     }
 
