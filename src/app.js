@@ -5,6 +5,7 @@ import cors from "cors";
 import cookieParser from 'cookie-parser';
 import journalistRoutes from './routes/journalist.routes.js'
 import socialNetworks from "./routes/social.networks.routes.js";
+import categories from "./routes/categories.routes.js"
 
 dotenv.config();
 
@@ -31,6 +32,8 @@ app.use(limiter);
 app.use('/api/v1/journalist', journalistRoutes)
 
 app.use('/api/v1/social-networks', socialNetworks)
+
+app.use('/api/v1/categories', categories)
 
 app.get('/', (req, res) => {
   res.send('Servidor funcionando');
