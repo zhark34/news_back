@@ -64,8 +64,16 @@ export const addCategoriesJournalist = async (req, res, next) =>{
     } catch (error) {
         console.error(error);
 
-        if (error.message === "CATEGORIES_ALREDY_EXIST") {
-            return res.status(404).json({ message: "Categoria ya existe" });
+        if (error.message === "CATEGORIES_NO_EXIST") {
+            return res.status(404).json({ message: "Categoria no existe" });
+        }
+
+        if (error.message === "NO_JOURNALISTS_FOUND") {
+            return res.status(404).json({ message: "No hay periodistas" });
+        }
+
+        if (error.message === "CATEGORY_ALREADY_ASSIGNED_TO_THE_JOURNALIST") {
+            return res.status(404).json({ message: "Categoria ya asignada al periodista" });
         }
 
         return res.status(500).json({ message: "Error al crear la categoria" });

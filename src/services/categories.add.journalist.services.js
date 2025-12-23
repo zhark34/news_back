@@ -16,7 +16,7 @@ export const addCategoriesJournalistServices = async (category_id, journalist_id
 
     if(!checkJournalist){
 
-        throw new Error("JOURNALIST_NO_EXIST");
+        throw new Error("NO_JOURNALISTS_FOUND");
 
     }
 
