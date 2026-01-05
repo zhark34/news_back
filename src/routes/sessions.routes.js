@@ -2,9 +2,14 @@ import { Router } from "express";
 const router = Router();
 
 import {
-    getOneSession
+    getOneSession,
+    deleteSession
 } from "../controllers/sessions.controllers.js";
 
-router.get("/:id", getOneSession);
+import { tokenMiddleware } from "../middlewares/token.middlewares.js";
+
+router.get("/:id", tokenMiddleware, getOneSession);
+
+router.delete("/:id", tokenMiddleware, deleteSession);
 
 export default router;
