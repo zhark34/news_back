@@ -1,4 +1,5 @@
-import { getSessionService } from "../services/sessions.services.js";
+import { getSessionService } from "../services/sessions.get.services.js";
+import { deleteSessionService } from "../services/sessions.delete.services.js";
 
 export const getOneSession = async (req, res) => {
 
@@ -7,6 +8,38 @@ export const getOneSession = async (req, res) => {
     try {
 
         const session = await getSessionService(journalist_id);
+
+        return res.status(200).json({
+            message: "OK",
+            session
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        if (error.message === "JOURNALIST_NOT_FOUND") {
+            return res.status(404).json({ message: "No se encontró el periodista con la id indicada" });
+        }
+
+        if (error.message === "SESSION_NOT_FOUND") {
+            return res.status(404).json({ message: "No se encontró la sesión con la id indicada" });
+        }
+
+        return res.status(500).json({ message: "Error al obtener la sesión" });
+    }
+
+}
+
+export const deleteSession = async (req, res) => {
+
+    const session_id = req.params.id;
+
+    const journalist_id = req.user.journalist_id;
+
+    try {
+
+        const session = await deleteSessionService(session_id, journalist_id);
 
         return res.status(200).json({
             message: "OK",
