@@ -6,8 +6,8 @@ import {
     getAllCategories,
     createCategories,
     addCategoriesJournalist,
-    getCategorieJournalist
-
+    getCategorieJournalist,
+    deleteCategoriesJournalist
 } from "../controllers/categories.controllers.js";
 
 import { tokenMiddleware } from "../middlewares/token.middlewares.js";
@@ -19,5 +19,7 @@ router.post("/create", tokenMiddleware, createCategories)
 router.post("/add", tokenMiddleware, addCategoriesJournalist)
 
 router.get("/:id", getCategorieJournalist)
+
+router.delete("/:id", tokenMiddleware, deleteCategoriesJournalist)
 
 export default router;
