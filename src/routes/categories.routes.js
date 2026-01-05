@@ -1,11 +1,12 @@
 import { Router } from "express";
 const router = Router();
 
-import { 
-    
+import {
+
     getAllCategories,
     createCategories,
-    addCategoriesJournalist
+    addCategoriesJournalist,
+    getCategorieJournalist
 
 } from "../controllers/categories.controllers.js";
 
@@ -16,5 +17,7 @@ router.get("/all", getAllCategories)
 router.post("/create", tokenMiddleware, createCategories)
 
 router.post("/add", tokenMiddleware, addCategoriesJournalist)
+
+router.get("/:id", getCategorieJournalist)
 
 export default router;
