@@ -29,28 +29,29 @@ export const validateJournalistServices = async (id, refreshToken) => {
     }
 
     if (new Date(session.expires_at) < new Date()) {
-        await Session.destroy({where: {refresh_token_hash: refreshTokenHash}})
+        await Session.destroy({ where: { refresh_token_hash: refreshTokenHash } })
         throw new Error("REFRESH_TOKEN_EXPIRED");
     }
 
     if (session.revoke === true) {
-        await Session.destroy({where: {refresh_token_hash: refreshTokenHash}})
+        await Session.destroy({ where: { refresh_token_hash: refreshTokenHash } })
         throw new Error("DISABLED_TOKEN");
     }
 
-    if (journalist.journalist_id !== session.journalist_id){
+    if (journalist.journalist_id !== session.journalist_id) {
 
         throw new Error("ID_DOES_NOT_MATCH");
 
     }
 
     return {
-        
+
         id: journalist.journalist_id,
         name: journalist.name,
         bio: journalist.bio,
         photo: journalist.profile_image_url,
-        role: journalist.role
+        role: journalist.role,
+        email: journalist.email
 
     };
 };
