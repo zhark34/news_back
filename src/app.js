@@ -6,25 +6,27 @@ import cookieParser from 'cookie-parser';
 import journalistRoutes from './routes/journalist.routes.js'
 import socialNetworks from "./routes/social.networks.routes.js";
 import categories from "./routes/categories.routes.js"
+import sessions from "./routes/sessions.routes.js"
 
 dotenv.config();
 
 const app = express();
 app.use(cors({
     origin: 'http://localhost:3001',
-    credentials: true}));
+    credentials: true
+}));
 app.use(express.json());
 app.use(cookieParser());
 
 const limiter = rateLimit({
-	windowMs: 15 * 60 * 1000,
-	max: 1000,
+    windowMs: 15 * 60 * 1000,
+    max: 1000,
     message: {
         status: 429,
         error: 'Demasiadas peticiones. Por favor, intenta de nuevo en 15 minutos.'
     },
-	standardHeaders: true,
-	legacyHeaders: false,
+    standardHeaders: true,
+    legacyHeaders: false,
 });
 
 app.use(limiter);
@@ -35,8 +37,10 @@ app.use('/api/v1/social-networks', socialNetworks)
 
 app.use('/api/v1/categories', categories)
 
+app.use('/api/v1/sessions', sessions)
+
 app.get('/', (req, res) => {
-  res.send('Servidor funcionando');
+    res.send('Servidor funcionando');
 });
 
 export default app;
