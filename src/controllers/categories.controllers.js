@@ -2,9 +2,9 @@ import { getAllCategoriesServices } from "../services/categories.get.all.service
 import { createCategoriesServices } from "../services/categories.create.services.js"
 import { addCategoriesJournalistServices } from "../services/categories.add.journalist.services.js"
 
-export const getAllCategories = async (req, res, next) =>{
+export const getAllCategories = async (req, res, next) => {
 
-    try{
+    try {
 
         const categories = await getAllCategoriesServices();
 
@@ -24,11 +24,11 @@ export const getAllCategories = async (req, res, next) =>{
     }
 };
 
-export const createCategories = async (req, res, next) =>{
+export const createCategories = async (req, res, next) => {
 
-    const {categorie} = req.body;
+    const { categorie } = req.body;
 
-    try{
+    try {
 
         const categories = await createCategoriesServices(categorie);
 
@@ -47,13 +47,13 @@ export const createCategories = async (req, res, next) =>{
     }
 };
 
-export const addCategoriesJournalist = async (req, res, next) =>{
+export const addCategoriesJournalist = async (req, res, next) => {
 
-    const {id, journalist_id} = req.body;
+    const { id } = req.body;
 
-    
+    const journalist_id = req.user.journalist_id;
 
-    try{
+    try {
 
         const categories = await addCategoriesJournalistServices(id, journalist_id);
 
