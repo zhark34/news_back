@@ -1,6 +1,7 @@
 import { getAllCategoriesServices } from "../services/categories.get.all.services.js"
 import { createCategoriesServices } from "../services/categories.create.services.js"
 import { addCategoriesJournalistServices } from "../services/categories.add.journalist.services.js"
+import { getCategorieJournalistServices } from "../services/categories.get.journalist.services.js"
 
 export const getAllCategories = async (req, res, next) => {
 
@@ -79,3 +80,28 @@ export const addCategoriesJournalist = async (req, res, next) => {
         return res.status(500).json({ message: "Error al crear la categoria" });
     }
 };
+
+
+export const getCategorieJournalist = async (req, res, next) => {
+
+    const { id } = req.params;
+
+    try {
+
+        const categories = await getCategorieJournalistServices(id);
+
+        return res.status(200).json({
+            message: categories
+        });
+
+    } catch (error) {
+        console.error(error);
+
+        if (error.message === "NO_CATEGORIES_FOUND") {
+            return res.status(404).json({ message: "No hay categorias" });
+        }
+
+        return res.status(500).json({ message: "Error al obtener la categoria" });
+    }
+
+}
