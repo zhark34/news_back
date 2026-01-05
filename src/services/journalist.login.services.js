@@ -7,11 +7,11 @@ import { generateRefreshToken } from '../utils/generate.refresh.token.js'
 import { sendEmail } from "../config/nodemailer.js"
 import { loginAlertEmail } from "../utils/email_templates/email.alert.session.js"
 
-export const loginJournalistServices = async (email, password, device, ip, country, province, city) =>{
+export const loginJournalistServices = async (email, password, device, ip, country, province, city) => {
 
-    const validateJournalist = await Journalist.findOne({where: { email }})
+    const validateJournalist = await Journalist.findOne({ where: { email } })
 
-    if(!validateJournalist){
+    if (!validateJournalist) {
 
         throw new Error("JOURNALITS_NO_EXIST");
 
@@ -19,7 +19,7 @@ export const loginJournalistServices = async (email, password, device, ip, count
 
     const passwordValidation = await validatePassword(password, validateJournalist.password);
 
-    if(!passwordValidation){
+    if (!passwordValidation) {
 
         throw new Error("WRONG_PASSWORD");
 
@@ -27,7 +27,7 @@ export const loginJournalistServices = async (email, password, device, ip, count
 
     const id_token = generateId();
 
-    const {refreshToken, hashed} = await generateRefreshToken();
+    const { refreshToken, hashed } = await generateRefreshToken();
 
     const newSession = await Session.create({
 
@@ -52,7 +52,7 @@ export const loginJournalistServices = async (email, password, device, ip, count
 
     await sendEmail({
 
-        to: validateJournalist.email, 
+        to: validateJournalist.email,
         subject: "Alerta de inicio de sesión",
         html: loginAlertEmail(validateJournalist.name, "linkreferencia.com", ip, country, province, city)
 
@@ -60,7 +60,7 @@ export const loginJournalistServices = async (email, password, device, ip, count
 
     const token = await generateToken(payload);
 
-    return{
+    return {
 
         message: "Login exitoso",
         token: token,
@@ -68,7 +68,8 @@ export const loginJournalistServices = async (email, password, device, ip, count
         id: validateJournalist.journalist_id,
         name: validateJournalist.name,
         role: validateJournalist.role,
-        photo: validateJournalist.profile_image_url
+        photo: validateJournalist.profile_image_url,
+        email: validateJournalist.email
 
     }
 
