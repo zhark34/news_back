@@ -17,6 +17,7 @@ import { deleteJournalistServices } from "../services/journalist.delete.services
 import { getDeviceInfo } from "../utils/get.user.agent.js"
 import { getIp } from "../utils/get.user.ip.js"
 import fs from 'fs-extra';
+import { updatePasswordByAdminServices } from "../services/journalist.update.password.by.admin.services.js"
 
 export const getAllJournalist = async (req, res, next) => {
 
@@ -538,3 +539,37 @@ export const logoutJournalist = async (req, res, next) => {
 
 }
 
+export const updatePasswordByAdmin = async (req, res, next) => {
+
+    const adminId = req.user.journalist_id;
+
+    const { id } = req.body;
+
+    try {
+
+        const journalist = await updatePasswordByAdminServices(adminId, id);
+
+        return res.status(200).json({
+            message: "OK",
+            journalist
+        });
+
+    } catch (error) {
+        console.error(error);
+
+        if (error.message === "NO_JOURNALIST_FOUND") {
+            return res.status(404).json({ message: "Periodista no encontrado" });
+        }
+
+        if (error.message === "NO_ADMIN_FOUND") {
+            return res.status(401).json({ message: "Admin no encontrado" });
+        }
+
+        if (error.message === "USER_NO_AUTHORIZED") {
+            return res.status(401).json({ message: "No tenes el rango para eliminar periodista" });
+        }
+
+        return res.status(500).json({ message: "Error al eliminar el periodista" });
+    }
+
+}
