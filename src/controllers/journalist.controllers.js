@@ -292,7 +292,7 @@ export const updateRoleJournalist = async (req, res, next) => {
 
     const { id } = req.params;
 
-    const role = req.user.role;
+    const { role } = req.body;
 
     try {
 
