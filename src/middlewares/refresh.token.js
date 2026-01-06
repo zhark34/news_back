@@ -51,16 +51,13 @@ export const refreshToken = async (req, res, next) => {
             id_token: session.id_token
         });
 
-        // Generar NUEVO REFRESH TOKEN
         const { refreshToken: newRefreshToken, hashed: newRefreshTokenHash } = generateRefreshToken();
 
-        // Actualizar la sesión con el nuevo refresh token
         await session.update({
             refresh_token_hash: newRefreshTokenHash,
             expires_at: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
         });
 
-        // Enviar ambos tokens en cookies
         res.cookie("token", newToken, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
