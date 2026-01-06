@@ -12,14 +12,16 @@ import {
 
 import { tokenMiddleware } from "../middlewares/token.middlewares.js";
 
+import { refreshToken } from "../middlewares/refresh.token.js";
+
 router.get("/all", getAllCategories)
 
-router.post("/create", tokenMiddleware, createCategories)
+router.post("/create", tokenMiddleware, refreshToken, createCategories)
 
-router.post("/add", tokenMiddleware, addCategoriesJournalist)
+router.post("/add", tokenMiddleware, refreshToken, addCategoriesJournalist)
 
 router.get("/:id", getCategorieJournalist)
 
-router.delete("/:id", tokenMiddleware, deleteCategoriesJournalist)
+router.delete("/:id", tokenMiddleware, refreshToken, deleteCategoriesJournalist)
 
 export default router;

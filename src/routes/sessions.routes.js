@@ -8,8 +8,10 @@ import {
 
 import { tokenMiddleware } from "../middlewares/token.middlewares.js";
 
-router.get("/:id", tokenMiddleware, getOneSession);
+import { refreshToken } from "../middlewares/refresh.token.js";
 
-router.delete("/:id", tokenMiddleware, deleteSession);
+router.get("/:id", tokenMiddleware, refreshToken, getOneSession);
+
+router.delete("/:id", tokenMiddleware, refreshToken, deleteSession);
 
 export default router;

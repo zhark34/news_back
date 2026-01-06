@@ -12,12 +12,14 @@ import {
 
 import { tokenMiddleware } from "../middlewares/token.middlewares.js";
 
+import { refreshToken } from "../middlewares/refresh.token.js";
+
 router.get("/:id", getOneJournalistSocialNetwork);
 
-router.post("/me/create", tokenMiddleware, createSocialNetworkJournalist);
+router.post("/me/create", tokenMiddleware, refreshToken, createSocialNetworkJournalist);
 
-router.patch("/me/update", tokenMiddleware, updateSocialNetworkJournalist);
+router.patch("/me/update", tokenMiddleware, refreshToken, updateSocialNetworkJournalist);
 
-router.delete("/me/delete/:id", tokenMiddleware, deleteSocialNetworkJournalist);
+router.delete("/me/delete/:id", tokenMiddleware, refreshToken, deleteSocialNetworkJournalist);
 
 export default router;
