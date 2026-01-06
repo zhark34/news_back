@@ -1,6 +1,8 @@
 import Journalist from "../models/journalist.js";
 import Session from "../models/sessions.js";
 import { hashRefreshToken } from "../utils/hash.refresh.token.js";
+import { generateToken } from "../utils/generate.token.js";
+import { generateRefreshToken } from "../utils/generate.refresh.token.js";
 
 export const validateJournalistServices = async (id, refreshToken) => {
 
@@ -33,7 +35,7 @@ export const validateJournalistServices = async (id, refreshToken) => {
         throw new Error("REFRESH_TOKEN_EXPIRED");
     }
 
-    if (session.revoke === true) {
+    if (session.revoked === true) {
         await Session.destroy({ where: { refresh_token_hash: refreshTokenHash } })
         throw new Error("DISABLED_TOKEN");
     }
@@ -44,6 +46,21 @@ export const validateJournalistServices = async (id, refreshToken) => {
 
     }
 
+    const newToken = generateToken({
+        journalist_id: journalist.journalist_id,
+        email: journalist.email,
+        role: journalist.role,
+        id_token: session.id_token
+    });
+
+    const { refreshToken: newRefreshToken, hashed: newRefreshTokenHash } = generateRefreshToken();
+
+    await session.update({
+        refresh_token_hash: newRefreshTokenHash,
+        expires_at: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+    });
+
+
     return {
 
         id: journalist.journalist_id,
@@ -51,7 +68,9 @@ export const validateJournalistServices = async (id, refreshToken) => {
         bio: journalist.bio,
         photo: journalist.profile_image_url,
         role: journalist.role,
-        email: journalist.email
+        email: journalist.email,
+        newToken,
+        newRefreshToken
 
     };
 };
