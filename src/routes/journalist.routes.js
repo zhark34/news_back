@@ -20,7 +20,8 @@ import {
     getOneJournalistFilter,
     validateJournalistFilter,
     deleteJournalist,
-    logoutJournalist
+    logoutJournalist,
+    updatePasswordByAdmin
 
 } from "../controllers/journalist.controllers.js";
 
@@ -59,6 +60,8 @@ router.patch("/me/password", tokenMiddleware, refreshToken, updatePasswordJourna
 router.patch("/:id/role", tokenMiddleware, refreshToken, updateRoleJournalist);
 
 router.delete("/:id", tokenMiddleware, refreshToken, deleteJournalist);
+
+router.patch("/admin/password", tokenMiddleware, refreshToken, updatePasswordByAdmin);
 
 // PUBLIC
 
