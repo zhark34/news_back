@@ -32,7 +32,7 @@ import { refreshToken } from "../middlewares/refresh.token.js";
 
 router.post("/login", loginJournalist);
 
-router.post("/register", createJournalist);
+router.post("/register", tokenMiddleware, refreshToken, createJournalist);
 
 router.patch("/password/forget", forgetPasswordJournalist);
 
