@@ -18,9 +18,9 @@ import { getDeviceInfo } from "../utils/get.user.agent.js"
 import { getIp } from "../utils/get.user.ip.js"
 import fs from 'fs-extra';
 
-export const getAllJournalist = async (req, res, next) =>{
+export const getAllJournalist = async (req, res, next) => {
 
-    try{
+    try {
 
         const journalist = await getAllJournalistServices();
 
@@ -40,11 +40,11 @@ export const getAllJournalist = async (req, res, next) =>{
     }
 };
 
-export const getOneJournalist = async (req, res, next) =>{
+export const getOneJournalist = async (req, res, next) => {
 
-    const {id} = req.params;
+    const { id } = req.params;
 
-    try{
+    try {
 
         const journalist = await getOneJournalistServices(id);
 
@@ -64,11 +64,11 @@ export const getOneJournalist = async (req, res, next) =>{
     }
 };
 
-export const createJournalist = async (req, res, next) =>{
+export const createJournalist = async (req, res, next) => {
 
     const { name, email, role } = req.body;
 
-    try{
+    try {
 
         const journalist = await createJournalistServices(name, email, role);
 
@@ -83,20 +83,20 @@ export const createJournalist = async (req, res, next) =>{
         if (error.message === "JOURNALIST_EXIST") {
             return res.status(409).json({ message: "El periodista ya está registrado" });
         }
-        
+
         return res.status(500).json({ message: "Error al intentar registrar al periodista" });
     }
 };
 
-export const loginJournalist = async (req, res, next) =>{
+export const loginJournalist = async (req, res, next) => {
 
     const { email, password } = req.body;
 
     const device = getDeviceInfo(req);
 
-    const {ip, country, province, city} = getIp(req);
+    const { ip, country, province, city } = getIp(req);
 
-    try{
+    try {
 
         const journalist = await loginJournalistServices(email, password, device, ip, country, province, city);
 
@@ -105,14 +105,14 @@ export const loginJournalist = async (req, res, next) =>{
             secure: false,
             sameSite: 'lax',
             path: '/',
-            maxAge: 30 * 24 * 60 * 60 * 1000
+            maxAge: 15 * 60 * 1000
         });
         res.cookie('refresh_token', journalist.refresh_token, {
             httpOnly: true,
             secure: false,
             sameSite: 'lax',
             path: '/',
-            maxAge: 30 * 24 * 60 * 60 * 1000
+            maxAge: 7 * 24 * 60 * 60 * 1000
         });
 
         return res.status(200).json({
@@ -129,7 +129,7 @@ export const loginJournalist = async (req, res, next) =>{
         if (error.message === "JOURNALITS_NO_EXIST") {
             return res.status(404).json({ message: "El periodista no está registrado" });
         }
-        
+
         if (error.message === "WRONG_PASSWORD") {
             return res.status(409).json({ message: "Contraseña errónea, pruebe de vuelta" });
         }
@@ -138,11 +138,11 @@ export const loginJournalist = async (req, res, next) =>{
     }
 };
 
-export const forgetPasswordJournalist = async (req, res, next) =>{
+export const forgetPasswordJournalist = async (req, res, next) => {
 
     const { email } = req.body;
 
-    try{
+    try {
 
         const journalist = await forgetPasswordJournalistServices(email);
 
@@ -157,16 +157,16 @@ export const forgetPasswordJournalist = async (req, res, next) =>{
         if (error.message === "JOURNALIST_NO_EXIST") {
             return res.status(404).json({ message: "El periodista no está registrado" });
         }
-        
+
         return res.status(500).json({ message: "Error del servidor al enviar el mail" });
     }
 };
 
-export const resetPasswordJournalist = async (req, res, next) =>{
+export const resetPasswordJournalist = async (req, res, next) => {
 
     const { token, password } = req.body;
 
-    try{
+    try {
 
         const journalist = await resetPasswordJournalistServices(token, password);
 
@@ -177,7 +177,7 @@ export const resetPasswordJournalist = async (req, res, next) =>{
 
     } catch (error) {
         console.error(error);
-        
+
         if (error.message === "TOKEN_EXPIRED") {
             return res.status(409).json({ message: "El token ya no es válido" });
         }
@@ -187,29 +187,29 @@ export const resetPasswordJournalist = async (req, res, next) =>{
 };
 
 
-export const updateNameJournalist = async (req, res, next) =>{
+export const updateNameJournalist = async (req, res, next) => {
 
-    const {name, password} = req.body;
+    const { name, password } = req.body;
 
     const id = req.user.journalist_id;
 
-    try{
+    try {
 
         const journalist = await updateNameJournalistServices(id, name, password);
 
-        
+
         return res.status(200).json({
             message: "Nombre cambiado con exito",
             journalist
         });
 
-    }catch (error) {
+    } catch (error) {
         console.error(error);
-        
+
         if (error.message === "JOURNALITS_NO_EXIST") {
             return res.status(404).json({ message: "El periodista no está registrado" });
         }
-        
+
         if (error.message === "WRONG_PASSWORD") {
             return res.status(409).json({ message: "Contraseña errónea, pruebe de vuelta" });
         }
@@ -219,29 +219,29 @@ export const updateNameJournalist = async (req, res, next) =>{
 
 }
 
-export const updateBioJournalist = async (req, res, next) =>{
+export const updateBioJournalist = async (req, res, next) => {
 
-    const {bio, password} = req.body;
+    const { bio, password } = req.body;
 
     const id = req.user.journalist_id;
 
-    try{
+    try {
 
         const journalist = await updateBioJournalistServices(id, bio, password);
 
-        
+
         return res.status(200).json({
             message: "Biografia cambiada con exito",
             journalist
         });
 
-    }catch (error) {
+    } catch (error) {
         console.error(error);
-        
+
         if (error.message === "JOURNALITS_NO_EXIST") {
             return res.status(404).json({ message: "El periodista no está registrado" });
         }
-        
+
         if (error.message === "WRONG_PASSWORD") {
             return res.status(409).json({ message: "Contraseña errónea, pruebe de vuelta" });
         }
@@ -251,29 +251,29 @@ export const updateBioJournalist = async (req, res, next) =>{
 
 }
 
-export const updateEmailJournalist = async (req, res, next) =>{
+export const updateEmailJournalist = async (req, res, next) => {
 
-    const {newEmail, password} = req.body;
+    const { newEmail, password } = req.body;
 
     const id = req.user.journalist_id;
 
-    try{
+    try {
 
         const journalist = await updateEmailJournalistServices(id, newEmail, password);
 
-        
+
         return res.status(200).json({
             message: "Email cambiada con exito",
             journalist
         });
 
-    }catch (error) {
+    } catch (error) {
         console.error(error);
-        
+
         if (error.message === "JOURNALITS_NO_EXIST") {
             return res.status(404).json({ message: "El periodista no está registrado" });
         }
-        
+
         if (error.message === "WRONG_PASSWORD") {
             return res.status(409).json({ message: "Contraseña errónea, pruebe de vuelta" });
         }
@@ -287,25 +287,25 @@ export const updateEmailJournalist = async (req, res, next) =>{
 
 }
 
-export const updateRoleJournalist = async (req, res, next) =>{
+export const updateRoleJournalist = async (req, res, next) => {
 
-    const {id} = req.params;
+    const { id } = req.params;
 
     const role = req.user.role;
 
-    try{
+    try {
 
         const journalist = await updateRoleJournalistServices(id, role);
 
-        
+
         return res.status(200).json({
             message: "Rol cambiado con exito",
             journalist
         });
 
-    }catch (error) {
+    } catch (error) {
         console.error(error);
-        
+
         if (error.message === "JOURNALITS_NO_EXIST") {
             return res.status(404).json({ message: "El periodista no está registrado" });
         }
@@ -315,15 +315,15 @@ export const updateRoleJournalist = async (req, res, next) =>{
 
 }
 
-export const updatePhotoJournalist = async (req, res, next) =>{
+export const updatePhotoJournalist = async (req, res, next) => {
 
-    const {password} = req.body;
+    const { password } = req.body;
 
     const id = req.user.journalist_id;
 
     const photo = req.file;
 
-    try{
+    try {
 
         if (!photo) {
             return res.status(400).json({ message: "No se ha proporcionado ninguna imagen" });
@@ -331,15 +331,15 @@ export const updatePhotoJournalist = async (req, res, next) =>{
 
         const journalist = await updatePhotoJournalistServices(id, password, photo.path);
 
-        
+
         return res.status(200).json({
             message: "Foto de perfil actualizada con éxito",
             journalist
         });
 
-    }catch (error) {
+    } catch (error) {
         console.error(error);
-        
+
         if (error.message === "JOURNALITS_NO_EXIST") {
             return res.status(404).json({ message: "El periodista no está registrado" });
         }
@@ -349,7 +349,7 @@ export const updatePhotoJournalist = async (req, res, next) =>{
         }
 
         return res.status(500).json({ message: "Error del servidor al cargar la foto" });
-    }finally {
+    } finally {
         if (req.file && req.file.path) {
             await fs.unlink(req.file.path).catch(err => console.error("Error borrando temporal:", err));
         }
@@ -357,13 +357,13 @@ export const updatePhotoJournalist = async (req, res, next) =>{
 
 }
 
-export const updatePasswordJournalist = async (req, res, next) =>{
+export const updatePasswordJournalist = async (req, res, next) => {
 
     const { password, newPassword } = req.body;
 
     const id = req.user.journalist_id;
 
-    try{
+    try {
 
         const journalist = await updatePasswordJournalistServices(id, password, newPassword);
 
@@ -374,7 +374,7 @@ export const updatePasswordJournalist = async (req, res, next) =>{
 
     } catch (error) {
         console.error(error);
-        
+
         if (error.message === "JOURNALITS_NO_EXIST") {
             return res.status(409).json({ message: "El periodista no está registrado" });
         }
@@ -388,11 +388,11 @@ export const updatePasswordJournalist = async (req, res, next) =>{
 };
 
 
-export const getOneJournalistFilter = async (req, res, next) =>{
+export const getOneJournalistFilter = async (req, res, next) => {
 
     const filters = req.query;
 
-    try{
+    try {
 
         const journalist = await getOneJournalistFilterServices(filters);
 
@@ -412,13 +412,13 @@ export const getOneJournalistFilter = async (req, res, next) =>{
     }
 };
 
-export const validateJournalistFilter = async (req, res, next) =>{
+export const validateJournalistFilter = async (req, res, next) => {
 
     const id = req.user.journalist_id;
 
     const refreshToken = req.cookies.refresh_token
 
-    try{
+    try {
 
         const journalist = await validateJournalistServices(id, refreshToken);
 
@@ -430,36 +430,36 @@ export const validateJournalistFilter = async (req, res, next) =>{
     } catch (error) {
 
         if (error.message === "JOURNALIST_NOT_FOUND") {
-            return res.status(404).json({message: "No se encontró el periodista con la ID indicada"});
+            return res.status(404).json({ message: "No se encontró el periodista con la ID indicada" });
         }
 
         if (error.message === "INVALID_REFRESH_TOKEN") {
-            return res.status(401).json({message: "Refresh token inválido"});
+            return res.status(401).json({ message: "Refresh token inválido" });
         }
 
         if (error.message === "REFRESH_TOKEN_EXPIRED") {
-            return res.status(401).json({message: "El refresh token expiró"});
+            return res.status(401).json({ message: "El refresh token expiró" });
         }
 
         if (error.message === "DISABLED_TOKEN") {
-            return res.status(401).json({message: "El refresh token fue revocado"});
+            return res.status(401).json({ message: "El refresh token fue revocado" });
         }
 
         if (error.message === "ID_DOES_NOT_MATCH") {
-            return res.status(403).json({message: "La sesión no coincide con el usuario"});
+            return res.status(403).json({ message: "La sesión no coincide con el usuario" });
         }
 
         return res.status(500).json({ message: "Error al validar el periodista" });
     }
 };
 
-export const deleteJournalist = async (req, res, next) =>{
+export const deleteJournalist = async (req, res, next) => {
 
     const adminId = req.user.journalist_id;
 
     const { id } = req.params;
 
-    try{
+    try {
 
         const journalist = await deleteJournalistServices(adminId, id);
 
@@ -487,13 +487,13 @@ export const deleteJournalist = async (req, res, next) =>{
     }
 };
 
-export const logoutJournalist = async (req, res, next) =>{
+export const logoutJournalist = async (req, res, next) => {
 
     const id = req.user.journalist_id;
 
     const refreshToken = req.cookies.refresh_token
 
-    try{
+    try {
 
         const journalist = await logoutJournalistServices(id, refreshToken);
 
@@ -505,15 +505,15 @@ export const logoutJournalist = async (req, res, next) =>{
     } catch (error) {
 
         if (error.message === "JOURNALIST_NOT_FOUND") {
-            return res.status(404).json({message: "No se encontró el periodista con la ID indicada"});
+            return res.status(404).json({ message: "No se encontró el periodista con la ID indicada" });
         }
 
         if (error.message === "INVALID_REFRESH_TOKEN") {
-            return res.status(401).json({message: "Refresh token inválido"});
+            return res.status(401).json({ message: "Refresh token inválido" });
         }
 
         if (error.message === "ID_DOES_NOT_MATCH") {
-            return res.status(403).json({message: "La sesión no coincide con el usuario"});
+            return res.status(403).json({ message: "La sesión no coincide con el usuario" });
         }
 
         return res.status(500).json({ message: "Error al cerrar sesion" });
