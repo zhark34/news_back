@@ -294,9 +294,11 @@ export const updateRoleJournalist = async (req, res, next) => {
 
     const { role } = req.body;
 
+    const adminId = req.user.journalist_id;
+
     try {
 
-        const journalist = await updateRoleJournalistServices(id, role);
+        const journalist = await updateRoleJournalistServices(id, role, adminId);
 
 
         return res.status(200).json({
@@ -309,6 +311,14 @@ export const updateRoleJournalist = async (req, res, next) => {
 
         if (error.message === "JOURNALITS_NO_EXIST") {
             return res.status(404).json({ message: "El periodista no está registrado" });
+        }
+
+        if (error.message === "ADMIN_NO_AUTH") {
+            return res.status(401).json({ message: "El administrador no tiene autorización" });
+        }
+
+        if (error.message === "ADMIN_NO_EXIST") {
+            return res.status(404).json({ message: "El administrador no está registrado" });
         }
 
         return res.status(500).json({ message: "Error del servidor al actualizar el rol" });
