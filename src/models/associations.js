@@ -7,6 +7,11 @@ import NewsParagraph from './news.paragraph.js';
 import SocialNetworks from './social.networks.js'
 import CategoriesJournalist from './categories.journalist.js';
 import Session from './sessions.js';
+import NewsQuote from './news.quote.js';
+import NewsVideo from './news.video.js';
+import NewsList from './news.list.js';
+import NewsListItem from './news.list.item.js';
+import NewsEmbed from './news.embed.js';
 
 Journalist.hasMany(CategoriesJournalist, { foreignKey: 'journalist_id', sourceKey: 'journalist_id' });
 CategoriesJournalist.belongsTo(Journalist, { foreignKey: 'journalist_id', targetKey: 'journalist_id' });
@@ -26,13 +31,28 @@ News.belongsTo(Journalist, { foreignKey: "journalist_id" });
 News.hasMany(NewsBlock, { foreignKey: "news_id" });
 NewsBlock.belongsTo(News, { foreignKey: "news_id" });
 
-NewsBlock.hasMany(NewsImage, { foreignKey: "news_id" });
-NewsImage.belongsTo(NewsBlock, { foreignKey: "news_id" });
+NewsBlock.hasMany(NewsImage, { foreignKey: "block_id" });
+NewsImage.belongsTo(NewsBlock, { foreignKey: "block_id" });
 
-NewsBlock.hasMany(NewsParagraph, { foreignKey: "news_id" });
-NewsParagraph.belongsTo(NewsBlock, { foreignKey: "news_id" });
+NewsBlock.hasMany(NewsParagraph, { foreignKey: "block_id" });
+NewsParagraph.belongsTo(NewsBlock, { foreignKey: "block_id" });
 
-export { 
+NewsBlock.hasMany(NewsQuote, { foreignKey: "block_id" });
+NewsQuote.belongsTo(NewsBlock, { foreignKey: "block_id" });
+
+NewsBlock.hasMany(NewsVideo, { foreignKey: "block_id" });
+NewsVideo.belongsTo(NewsBlock, { foreignKey: "block_id" });
+
+NewsBlock.hasMany(NewsList, { foreignKey: "block_id" });
+NewsList.belongsTo(NewsBlock, { foreignKey: "block_id" });
+
+NewsList.hasMany(NewsListItem, { foreignKey: "list_id" });
+NewsListItem.belongsTo(NewsList, { foreignKey: "list_id" });
+
+NewsBlock.hasMany(NewsEmbed, { foreignKey: "block_id" });
+NewsEmbed.belongsTo(NewsBlock, { foreignKey: "block_id" });
+
+export {
 
     Journalist,
     Categories,
@@ -41,6 +61,11 @@ export {
     NewsBlock,
     NewsImage,
     NewsParagraph,
+    NewsList,
+    NewsQuote,
+    NewsVideo,
+    NewsEmbed,
+    NewsListItem,
     Session
 
 }
