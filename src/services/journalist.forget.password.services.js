@@ -3,11 +3,11 @@ import { generateTokenTemporal } from "../utils/generate.token.link.js";
 import { passwordTokenEmail } from "../utils/email_templates/journalist.forget.password.js";
 import { sendEmail } from "../config/nodemailer.js";
 
-export const forgetPasswordJournalistServices = async (email) =>{
+export const forgetPasswordJournalistServices = async (email) => {
 
-    const checkEmail = await Journalist.findOne({where: { email }});
+    const checkEmail = await Journalist.findOne({ where: { email } });
 
-    if(!checkEmail){
+    if (!checkEmail) {
 
         throw new Error("JOURNALIST_NO_EXIST");
 
@@ -23,10 +23,10 @@ export const forgetPasswordJournalistServices = async (email) =>{
     });
 
     await sendEmail({
-    
+
         to: email,
         subject: "Restablece tu contraseña",
-        html: await passwordTokenEmail(checkEmail.name, `https://tu-pagina.com/${rawToken}`)
+        html: await passwordTokenEmail(checkEmail.name, `http://localhost:3001/recover-password/${rawToken}`)
 
     })
 
