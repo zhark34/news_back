@@ -422,6 +422,22 @@ export const validateJournalistFilter = async (req, res, next) => {
 
         const journalist = await validateJournalistServices(id, refreshToken);
 
+        res.cookie("token", journalist.newToken, {
+            httpOnly: true,
+            secure: false,
+            sameSite: "lax",
+            path: "/",
+            maxAge: 15 * 60 * 1000
+        });
+
+        res.cookie("refresh_token", journalist.newRefreshToken, {
+            httpOnly: true,
+            secure: false,
+            sameSite: "lax",
+            path: "/",
+            maxAge: 7 * 24 * 60 * 60 * 1000
+        });
+
         return res.status(200).json({
             message: "OK",
             journalist
