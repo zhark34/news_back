@@ -8,11 +8,11 @@ import { sendEmail } from "../config/nodemailer.js";
 export const resetPasswordJournalistServices = async (token, password) => {
 
     const hashedToken = crypto
-    .createHash("sha256")
-    .update(token)
-    .digest("hex");
+        .createHash("sha256")
+        .update(token)
+        .digest("hex");
 
-    const journalist = await Journalist.findOne({ where: { reset_token: hashedToken, reset_token_expire: { [Op.gt]: Date.now() }} });
+    const journalist = await Journalist.findOne({ where: { reset_token: hashedToken, reset_token_expire: { [Op.gt]: Date.now() } } });
 
     if (!journalist) {
         throw new Error("TOKEN_EXPIRED");
@@ -27,10 +27,10 @@ export const resetPasswordJournalistServices = async (token, password) => {
     await journalist.save();
 
     await sendEmail({
-    
+
         to: journalist.email,
         subject: "Alerta de seguridad",
-        html: await passwordChangedEmail(journalist.name, "https://tu-pagina.com/login")
+        html: await passwordChangedEmail(journalist.name, "http://localhost:3001/olvide-mi-contraseña")
 
     })
 
