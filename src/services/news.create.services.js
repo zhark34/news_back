@@ -43,6 +43,9 @@ export const createNewsService = async (title, category, photo, journalistId, ac
 
     }
 
-    return `Noticia ${action === "check" ? "en espera de aprobación" : "guardada como borrador"}`;
+    return {
+        response: `Noticia ${action === "check" ? "en espera de aprobación" : "guardada como borrador"}`,
+        news_id: newsId
+    };
 
 }
