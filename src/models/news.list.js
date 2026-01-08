@@ -27,7 +27,8 @@ const NewsList = sequelize.define(
         },
         list_id: {
             type: DataTypes.BIGINT,
-            allowNull: false
+            allowNull: false,
+            unique: true
         }
 
     },
