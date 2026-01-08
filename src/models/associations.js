@@ -17,6 +17,7 @@ import NewsAnalyticsRealtime from './news.analytics.realtime.js';
 import NewsReferrersDaily from './news.referrers.daily.js';
 import NewsGeoAnalyticsDaily from './news.geo.analytics.daily.js';
 import NewsTechAnalitycsDaily from './news.tech.analitycs.daily.js';
+import NewsStatus from './news.status.js';
 
 Journalist.hasMany(CategoriesJournalist, { foreignKey: 'journalist_id', sourceKey: 'journalist_id' });
 CategoriesJournalist.belongsTo(Journalist, { foreignKey: 'journalist_id', targetKey: 'journalist_id' });
@@ -30,8 +31,16 @@ SocialNetworks.belongsTo(Journalist, { foreignKey: "journalist_id", targetKey: '
 Journalist.hasMany(Session, { foreignKey: 'journalist_id', sourceKey: 'journalist_id' });
 Session.belongsTo(Journalist, { foreignKey: 'journalist_id', targetKey: 'journalist_id' });
 
-Journalist.hasMany(News, { foreignKey: "journalist_id" });
-News.belongsTo(Journalist, { foreignKey: "journalist_id" });
+Journalist.hasMany(News, {
+    foreignKey: "journalist_id",
+    sourceKey: "journalist_id"
+});
+
+News.belongsTo(Journalist, {
+    foreignKey: "journalist_id",
+    targetKey: "journalist_id"
+});
+
 
 News.hasMany(NewsBlock, { foreignKey: "news_id" });
 NewsBlock.belongsTo(News, { foreignKey: "news_id" });
@@ -72,6 +81,9 @@ NewsGeoAnalyticsDaily.belongsTo(News, { foreignKey: "news_id" });
 News.hasMany(NewsTechAnalitycsDaily, { foreignKey: "news_id" });
 NewsTechAnalitycsDaily.belongsTo(News, { foreignKey: "news_id" });
 
+News.hasMany(NewsStatus, { foreignKey: "news_id", sourceKey: "news_id" });
+NewsStatus.belongsTo(News, { foreignKey: "news_id", targetKey: "news_id" });
+
 export {
 
     Journalist,
@@ -91,6 +103,7 @@ export {
     NewsAnalyticsRealtime,
     NewsReferrersDaily,
     NewsGeoAnalyticsDaily,
-    NewsTechAnalitycsDaily
+    NewsTechAnalitycsDaily,
+    NewsStatus
 
 }
