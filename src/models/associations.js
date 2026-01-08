@@ -42,29 +42,29 @@ News.belongsTo(Journalist, {
 });
 
 
-News.hasMany(NewsBlock, { foreignKey: "news_id" });
-NewsBlock.belongsTo(News, { foreignKey: "news_id" });
+News.hasMany(NewsBlock, { foreignKey: "news_id", sourceKey: "news_id" });
+NewsBlock.belongsTo(News, { foreignKey: "news_id", targetKey: "news_id" });
 
-NewsBlock.hasMany(NewsImage, { foreignKey: "block_id" });
-NewsImage.belongsTo(NewsBlock, { foreignKey: "block_id" });
+NewsBlock.hasMany(NewsImage, { foreignKey: "block_id", sourceKey: "block_id" });
+NewsImage.belongsTo(NewsBlock, { foreignKey: "block_id", targetKey: "block_id" });
 
-NewsBlock.hasMany(NewsParagraph, { foreignKey: "block_id" });
-NewsParagraph.belongsTo(NewsBlock, { foreignKey: "block_id" });
+NewsBlock.hasMany(NewsParagraph, { foreignKey: "block_id", sourceKey: "block_id" });
+NewsParagraph.belongsTo(NewsBlock, { foreignKey: "block_id", targetKey: "block_id" });
 
-NewsBlock.hasMany(NewsQuote, { foreignKey: "block_id" });
-NewsQuote.belongsTo(NewsBlock, { foreignKey: "block_id" });
+NewsBlock.hasMany(NewsQuote, { foreignKey: "block_id", sourceKey: "block_id" });
+NewsQuote.belongsTo(NewsBlock, { foreignKey: "block_id", targetKey: "block_id" });
 
-NewsBlock.hasMany(NewsVideo, { foreignKey: "block_id" });
-NewsVideo.belongsTo(NewsBlock, { foreignKey: "block_id" });
+NewsBlock.hasMany(NewsVideo, { foreignKey: "block_id", sourceKey: "block_id" });
+NewsVideo.belongsTo(NewsBlock, { foreignKey: "block_id", targetKey: "block_id" });
 
-NewsBlock.hasMany(NewsList, { foreignKey: "block_id" });
-NewsList.belongsTo(NewsBlock, { foreignKey: "block_id" });
+NewsBlock.hasMany(NewsList, { foreignKey: "block_id", sourceKey: "block_id" });
+NewsList.belongsTo(NewsBlock, { foreignKey: "block_id", targetKey: "block_id" });
 
-NewsList.hasMany(NewsListItem, { foreignKey: "list_id" });
-NewsListItem.belongsTo(NewsList, { foreignKey: "list_id" });
+NewsList.hasMany(NewsListItem, { foreignKey: "list_id", sourceKey: "list_id" });
+NewsListItem.belongsTo(NewsList, { foreignKey: "list_id", targetKey: "list_id" });
 
-NewsBlock.hasMany(NewsEmbed, { foreignKey: "block_id" });
-NewsEmbed.belongsTo(NewsBlock, { foreignKey: "block_id" });
+NewsBlock.hasMany(NewsEmbed, { foreignKey: "block_id", sourceKey: "block_id" });
+NewsEmbed.belongsTo(NewsBlock, { foreignKey: "block_id", targetKey: "block_id" });
 
 News.hasMany(NewsAnalyticsDaily, { foreignKey: "news_id" });
 NewsAnalyticsDaily.belongsTo(News, { foreignKey: "news_id" });
