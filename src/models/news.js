@@ -30,13 +30,10 @@ const News = sequelize.define(
             type: DataTypes.BIGINT,
             allowNull: false,
         },
-        country: {
-            type: DataTypes.STRING(50),
-            allowNull: false,
-        },
         news_id: {
             type: DataTypes.BIGINT,
             allowNull: false,
+            unique: true
         },
 
     },
