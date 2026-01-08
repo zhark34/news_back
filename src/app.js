@@ -7,6 +7,7 @@ import journalistRoutes from './routes/journalist.routes.js'
 import socialNetworks from "./routes/social.networks.routes.js";
 import categories from "./routes/categories.routes.js"
 import sessions from "./routes/sessions.routes.js"
+import newsRoutes from "./routes/news.routes.js"
 
 dotenv.config();
 
@@ -38,6 +39,8 @@ app.use('/api/v1/social-networks', socialNetworks)
 app.use('/api/v1/categories', categories)
 
 app.use('/api/v1/sessions', sessions)
+
+app.use('/api/v1/news', newsRoutes)
 
 app.get('/', (req, res) => {
     res.send('Servidor funcionando');
