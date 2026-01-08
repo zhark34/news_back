@@ -21,6 +21,7 @@ const NewsBlock = sequelize.define(
         block_id: {
             type: DataTypes.BIGINT,
             allowNull: false,
+            unique: true
         },
         position: {
             type: DataTypes.SMALLINT,
