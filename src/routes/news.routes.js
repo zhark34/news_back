@@ -5,7 +5,8 @@ import upload from "../middlewares/multer.config.js";
 import {
     createNews,
     getNewsJournalist,
-    newsSendToCheck
+    newsSendToCheck,
+    newsBlockCreate
 } from "../controllers/news.controllers.js";
 
 import { tokenMiddleware } from "../middlewares/token.middlewares.js";
@@ -17,5 +18,7 @@ router.post("/create", tokenMiddleware, refreshToken, upload.single('photo'), cr
 router.get("/:status", tokenMiddleware, refreshToken, getNewsJournalist);
 
 router.patch("/send-to-check/:id", tokenMiddleware, refreshToken, newsSendToCheck);
+
+router.post("/news-block/:action", tokenMiddleware, refreshToken, newsBlockCreate);
 
 export default router;
