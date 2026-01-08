@@ -20,7 +20,11 @@ const NewsStatus = sequelize.define(
         news_id: {
             type: DataTypes.BIGINT,
             allowNull: false,
-            unique: true
+        },
+        latest: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: true
         }
     },
     {
