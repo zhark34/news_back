@@ -10,7 +10,7 @@ const NewsEmbed = sequelize.define(
             autoIncrement: true
         },
         embed_code: {
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT,
             allowNull: false
         },
         provider: {
