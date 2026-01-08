@@ -11,7 +11,7 @@ export const getNewsJournalistService = async (journalistId, status) => {
     }
 
     if (status === "all") {
-        const news = await News.findAll({ where: { journalist_id: journalistId }, include: [{ model: NewsStatus, as: "news_statuses" }] })
+        const news = await News.findAll({ where: { journalist_id: journalistId }, include: [{ model: NewsStatus, as: "news_statuses", where: { latest: true } }] })
 
         if (!news) {
             throw new Error("NO_NEWS_FOUND")
@@ -19,7 +19,7 @@ export const getNewsJournalistService = async (journalistId, status) => {
 
         return news
     } if (status === "draft") {
-        const news = await News.findAll({ where: { journalist_id: journalistId }, include: [{ model: NewsStatus, as: "news_statuses", where: { status: status } }] })
+        const news = await News.findAll({ where: { journalist_id: journalistId }, include: [{ model: NewsStatus, as: "news_statuses", where: { status: status, latest: true } }] })
 
         if (!news) {
             throw new Error("NO_NEWS_FOUND")
@@ -27,7 +27,7 @@ export const getNewsJournalistService = async (journalistId, status) => {
 
         return news
     } if (status === "pending") {
-        const news = await News.findAll({ where: { journalist_id: journalistId }, include: [{ model: NewsStatus, as: "news_statuses", where: { status: status } }] })
+        const news = await News.findAll({ where: { journalist_id: journalistId }, include: [{ model: NewsStatus, as: "news_statuses", where: { status: status, latest: true } }] })
 
         if (!news) {
             throw new Error("NO_NEWS_FOUND")
@@ -35,7 +35,7 @@ export const getNewsJournalistService = async (journalistId, status) => {
 
         return news
     } if (status === "published") {
-        const news = await News.findAll({ where: { journalist_id: journalistId }, include: [{ model: NewsStatus, as: "news_statuses", where: { status: status } }] })
+        const news = await News.findAll({ where: { journalist_id: journalistId }, include: [{ model: NewsStatus, as: "news_statuses", where: { status: status, latest: true } }] })
 
         if (!news) {
             throw new Error("NO_NEWS_FOUND")
@@ -43,7 +43,7 @@ export const getNewsJournalistService = async (journalistId, status) => {
 
         return news
     } if (status === "rejected") {
-        const news = await News.findAll({ where: { journalist_id: journalistId }, include: [{ model: NewsStatus, as: "news_statuses", where: { status: status } }] })
+        const news = await News.findAll({ where: { journalist_id: journalistId }, include: [{ model: NewsStatus, as: "news_statuses", where: { status: status, latest: true } }] })
 
         if (!news) {
             throw new Error("NO_NEWS_FOUND")
