@@ -14,6 +14,10 @@ const News = sequelize.define(
             type: DataTypes.STRING(),
             allowNull: false,
         },
+        cover_photo_public_id: {
+            type: DataTypes.STRING(),
+            allowNull: true,
+        },
         category: {
             type: DataTypes.STRING(50),
             allowNull: false,
