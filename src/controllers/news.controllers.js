@@ -7,6 +7,8 @@ import { newsBlockCreatePhotoService } from "../services/news.block.create.photo
 import { newsBlockCreateVideoService } from "../services/news.block.create.video.services.js";
 import { newsBlockUpdateService } from "../services/news.block.update.services.js";
 import { newsEditService } from "../services/news.edit.services.js";
+import { newsEditPhotoService } from "../services/news.edit.photo.services.js";
+import { newsEditVideoService } from "../services/news.edit.video.services.js";
 import fs from 'fs-extra';
 
 export const createNews = async (req, res) => {
@@ -316,6 +318,98 @@ export const newsEdit = async (req, res) => {
 
         if (error.message === "NEWS_NOT_FOUND") {
             return res.status(404).json({ message: "No se encontró la noticia con la ID indicada" });
+        }
+
+        return res.status(500).json({ message: "Error al editar la noticia", error: error.message });
+    } finally {
+        if (req.file && req.file.path) {
+            await fs.unlink(req.file.path).catch(err => console.error("Error borrando temporal:", err));
+        }
+    }
+};
+
+export const newsEditPhoto = async (req, res) => {
+
+    const { newsId, photo_id, caption, photo_source, position, blockId } = req.body;
+
+    const photo = req.file;
+
+    const journalistId = req.user.journalist_id;
+
+    try {
+
+        const news = await newsEditPhotoService(newsId, photo.path, journalistId, photo_id, caption, photo_source, position, blockId)
+
+        return res.status(200).json({
+            message: "OK",
+            news
+        });
+    } catch (error) {
+
+        if (error.message === "JOURNALIST_NOT_FOUND") {
+            return res.status(404).json({ message: "No se encontró el periodista con la ID indicada" });
+        }
+
+        if (error.message === "NEWS_NOT_FOUND") {
+            return res.status(404).json({ message: "No se encontró la noticia con la ID indicada" });
+        }
+
+        if (error.message === "BLOCK_NOT_FOUND") {
+            return res.status(404).json({ message: "No se encontró el bloque con la ID indicada" });
+        }
+
+        if (error.message === "JOURNALIST_NOT_AUTHORIZED") {
+            return res.status(403).json({ message: "No tienes permiso para modificar esta noticia" });
+        }
+
+        if (error.message === "PHOTO_NOT_FOUND") {
+            return res.status(404).json({ message: "No se encontró la foto con la ID indicada" });
+        }
+
+        return res.status(500).json({ message: "Error al editar la noticia", error: error.message });
+    } finally {
+        if (req.file && req.file.path) {
+            await fs.unlink(req.file.path).catch(err => console.error("Error borrando temporal:", err));
+        }
+    }
+};
+
+export const newsEditVideo = async (req, res) => {
+
+    const { newsId, video_id, caption, position, blockId } = req.body;
+
+    const video = req.file;
+
+    const journalistId = req.user.journalist_id;
+
+    try {
+
+        const news = await newsEditVideoService(newsId, video.path, journalistId, video_id, caption, position, blockId)
+
+        return res.status(200).json({
+            message: "OK",
+            news
+        });
+    } catch (error) {
+
+        if (error.message === "JOURNALIST_NOT_FOUND") {
+            return res.status(404).json({ message: "No se encontró el periodista con la ID indicada" });
+        }
+
+        if (error.message === "NEWS_NOT_FOUND") {
+            return res.status(404).json({ message: "No se encontró la noticia con la ID indicada" });
+        }
+
+        if (error.message === "JOURNALIST_NOT_AUTHORIZED") {
+            return res.status(403).json({ message: "No tienes permiso para modificar esta noticia" });
+        }
+
+        if (error.message === "BLOCK_NOT_FOUND") {
+            return res.status(404).json({ message: "No se encontró el bloque con la ID indicada" });
+        }
+
+        if (error.message === "VIDEO_NOT_FOUND") {
+            return res.status(404).json({ message: "No se encontró el video con la ID indicada" });
         }
 
         return res.status(500).json({ message: "Error al editar la noticia", error: error.message });
