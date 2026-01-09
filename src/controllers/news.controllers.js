@@ -2,6 +2,7 @@ import { createNewsService } from "../services/news.create.services.js";
 import { getNewsJournalistService } from "../services/news.get.journalist.services.js";
 import { newsSendToCheckService } from "../services/news.send.to.check.services.js";
 import { newsBlockCreateService } from "../services/news.block.create.services.js";
+import { newsListPreviewJournalistService } from "../services/news.list.preview.journalist.services.js";
 import fs from 'fs-extra';
 
 export const createNews = async (req, res) => {
@@ -121,3 +122,36 @@ export const newsBlockCreate = async (req, res) => {
         return res.status(500).json({ message: "Error al obtener las noticias del periodista", error: error.message });
     }
 };
+
+export const newsListPreviewJournalist = async (req, res) => {
+
+    const journalistId = req.user.journalist_id;
+
+    const idNews = req.params.id;
+
+    try {
+        const news = await newsListPreviewJournalistService(journalistId, idNews);
+
+        return res.status(200).json({
+            message: "OK",
+            news
+        });
+
+    } catch (error) {
+
+        if (error.message === "JOURNALIST_NOT_FOUND") {
+            return res.status(404).json({ message: "No se encontró el periodista con la ID indicada" });
+        }
+
+        if (error.message === "NEWS_NOT_FOUND") {
+            return res.status(404).json({ message: "No se encontró la noticia con la ID indicada" });
+        }
+
+        if (error.message === "NOT_ALLOWED") {
+            return res.status(403).json({ message: "No tienes permiso para acceder a esta noticia" });
+        }
+
+        return res.status(500).json({ message: "Error al obtener las noticias del periodista", error: error.message });
+    }
+
+} 
