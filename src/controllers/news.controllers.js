@@ -9,6 +9,7 @@ import { newsBlockUpdateService } from "../services/news.block.update.services.j
 import { newsEditService } from "../services/news.edit.services.js";
 import { newsEditPhotoService } from "../services/news.edit.photo.services.js";
 import { newsEditVideoService } from "../services/news.edit.video.services.js";
+import { newsBlockDeleteService } from "../services/news.block.delete.services.js";
 import fs from 'fs-extra';
 
 export const createNews = async (req, res) => {
@@ -417,5 +418,39 @@ export const newsEditVideo = async (req, res) => {
         if (req.file && req.file.path) {
             await fs.unlink(req.file.path).catch(err => console.error("Error borrando temporal:", err));
         }
+    }
+};
+
+export const newsBlockDelete = async (req, res) => {
+
+    const journalistId = req.user.journalist_id;
+    const blockId = req.params.id;
+
+    try {
+        const news = await newsBlockDeleteService(journalistId, blockId);
+
+        return res.status(200).json({
+            message: "OK",
+            news
+        });
+    } catch (error) {
+
+        if (error.message === "JOURNALIST_NOT_FOUND") {
+            return res.status(404).json({ message: "No se encontró el periodista con la ID indicada" });
+        }
+
+        if (error.message === "BLOCK_NOT_FOUND") {
+            return res.status(404).json({ message: "No se encontró el bloque con la ID indicada" });
+        }
+
+        if (error.message === "NEWS_NOT_FOUND") {
+            return res.status(404).json({ message: "No se encontró la noticia con la ID indicada" });
+        }
+
+        if (error.message === "NOT_ALLOWED") {
+            return res.status(403).json({ message: "No tienes permiso para eliminar este bloque" });
+        }
+
+        return res.status(500).json({ message: "Error al eliminar el bloque", error: error.message });
     }
 };
