@@ -14,7 +14,8 @@ import {
     newsEdit,
     newsEditPhoto,
     newsEditVideo,
-    newsBlockDelete
+    newsBlockDelete,
+    newsDelete
 } from "../controllers/news.controllers.js";
 
 import { tokenMiddleware } from "../middlewares/token.middlewares.js";
@@ -44,5 +45,7 @@ router.patch("/edit-photo", tokenMiddleware, refreshToken, upload.single('photo'
 router.patch("/edit-video", tokenMiddleware, refreshToken, upload.single('video'), newsEditVideo);
 
 router.delete("/block-delete/:id", tokenMiddleware, refreshToken, newsBlockDelete);
+
+router.delete("/delete/:id", tokenMiddleware, refreshToken, newsDelete);
 
 export default router;
