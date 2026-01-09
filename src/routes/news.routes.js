@@ -8,7 +8,8 @@ import {
     newsSendToCheck,
     newsBlockCreate,
     newsListPreviewJournalist,
-    newsBlockCreatePhoto
+    newsBlockCreatePhoto,
+    newsBlockCreateVideo
 } from "../controllers/news.controllers.js";
 
 import { tokenMiddleware } from "../middlewares/token.middlewares.js";
@@ -26,5 +27,7 @@ router.post("/news-block/:action", tokenMiddleware, refreshToken, newsBlockCreat
 router.get("/news-list-preview/:id", tokenMiddleware, refreshToken, newsListPreviewJournalist);
 
 router.post("/news-block-photo", tokenMiddleware, refreshToken, upload.single('photo'), newsBlockCreatePhoto)
+
+router.post("/news-block-video", tokenMiddleware, refreshToken, upload.single('video'), newsBlockCreateVideo)
 
 export default router;
