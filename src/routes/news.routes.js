@@ -6,7 +6,8 @@ import {
     createNews,
     getNewsJournalist,
     newsSendToCheck,
-    newsBlockCreate
+    newsBlockCreate,
+    newsListPreviewJournalist
 } from "../controllers/news.controllers.js";
 
 import { tokenMiddleware } from "../middlewares/token.middlewares.js";
@@ -20,5 +21,7 @@ router.get("/:status", tokenMiddleware, refreshToken, getNewsJournalist);
 router.patch("/send-to-check/:id", tokenMiddleware, refreshToken, newsSendToCheck);
 
 router.post("/news-block/:action", tokenMiddleware, refreshToken, newsBlockCreate);
+
+router.get("/news-list-preview/:id", tokenMiddleware, refreshToken, newsListPreviewJournalist);
 
 export default router;
