@@ -11,7 +11,9 @@ import {
     newsBlockCreatePhoto,
     newsBlockCreateVideo,
     newsBlockUpdate,
-    newsEdit
+    newsEdit,
+    newsEditPhoto,
+    newsEditVideo
 } from "../controllers/news.controllers.js";
 
 import { tokenMiddleware } from "../middlewares/token.middlewares.js";
@@ -35,5 +37,9 @@ router.post("/news-block-video", tokenMiddleware, refreshToken, upload.single('v
 router.patch("/news-block-update/:action", tokenMiddleware, refreshToken, newsBlockUpdate);
 
 router.patch("/edit", tokenMiddleware, refreshToken, upload.single('photo'), newsEdit);
+
+router.patch("/edit-photo", tokenMiddleware, refreshToken, upload.single('photo'), newsEditPhoto);
+
+router.patch("/edit-video", tokenMiddleware, refreshToken, upload.single('video'), newsEditVideo);
 
 export default router;
