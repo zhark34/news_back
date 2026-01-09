@@ -4,6 +4,7 @@ import { newsSendToCheckService } from "../services/news.send.to.check.services.
 import { newsBlockCreateService } from "../services/news.block.create.services.js";
 import { newsListPreviewJournalistService } from "../services/news.list.preview.journalist.services.js";
 import { newsBlockCreatePhotoService } from "../services/news.block.create.photo.services.js";
+import { newsBlockCreateVideoService } from "../services/news.block.create.video.services.js";
 import fs from 'fs-extra';
 
 export const createNews = async (req, res) => {
@@ -166,6 +167,44 @@ export const newsBlockCreatePhoto = async (req, res) => {
     try {
 
         const news = await newsBlockCreatePhotoService(journalistId, caption, photo_source, photo.path, newsId, blockType, position);
+
+        return res.status(200).json({
+            message: "OK",
+            news
+        });
+
+    } catch (error) {
+
+        if (error.message === "JOURNALIST_NOT_FOUND") {
+            return res.status(404).json({ message: "No se encontró el periodista con la ID indicada" });
+        }
+
+        if (error.message === "NEWS_NOT_FOUND") {
+            return res.status(404).json({ message: "No se encontró la noticia con la ID indicada" });
+        }
+
+        if (error.message === "NOT_ALLOWED") {
+            return res.status(403).json({ message: "No tienes permiso para modificar esta noticia" });
+        }
+
+        return res.status(500).json({ message: "Error al modificar la noticia", error: error.message });
+    } finally {
+        if (req.file && req.file.path) {
+            await fs.unlink(req.file.path).catch(err => console.error("Error borrando temporal:", err));
+        }
+    }
+
+}
+
+export const newsBlockCreateVideo = async (req, res) => {
+
+    const journalistId = req.user.journalist_id;
+    const { caption, newsId, blockType, position } = req.body;
+    const video = req.file;
+
+    try {
+
+        const news = await newsBlockCreateVideoService(journalistId, caption, video.path, newsId, blockType, position);
 
         return res.status(200).json({
             message: "OK",
