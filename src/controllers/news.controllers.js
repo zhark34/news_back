@@ -5,6 +5,7 @@ import { newsBlockCreateService } from "../services/news.block.create.services.j
 import { newsListPreviewJournalistService } from "../services/news.list.preview.journalist.services.js";
 import { newsBlockCreatePhotoService } from "../services/news.block.create.photo.services.js";
 import { newsBlockCreateVideoService } from "../services/news.block.create.video.services.js";
+import { newsBlockUpdateService } from "../services/news.block.update.services.js";
 import fs from 'fs-extra';
 
 export const createNews = async (req, res) => {
@@ -233,3 +234,31 @@ export const newsBlockCreateVideo = async (req, res) => {
     }
 
 }
+
+export const newsBlockUpdate = async (req, res) => {
+
+    const journalistId = req.user.journalist_id;
+    const action = req.params.action;
+    const dataForm = req.body;
+
+    try {
+        const news = await newsBlockUpdateService(journalistId, action, dataForm);
+
+        return res.status(200).json({
+            message: "OK",
+            news
+        });
+
+    } catch (error) {
+
+        if (error.message === "JOURNALIST_NOT_FOUND") {
+            return res.status(404).json({ message: "No se encontró el periodista con la ID indicada" });
+        }
+
+        if (error.message === "NEWS_NOT_FOUND") {
+            return res.status(404).json({ message: "No se encontró la noticia con la ID indicada" });
+        }
+
+        return res.status(500).json({ message: "Error al obtener las noticias del periodista", error: error.message });
+    }
+};
