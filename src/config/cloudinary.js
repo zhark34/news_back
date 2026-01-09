@@ -52,4 +52,22 @@ export const uploadVideo = async (filePath, folder) => {
     }
 };
 
+export const deleteImage = async (public_id) => {
+    try {
+        await cloudinary.uploader.destroy(public_id);
+    } catch (error) {
+        console.error("Cloudinary delete error:", error);
+        throw new Error("IMAGE_DELETE_FAILED");
+    }
+};
+
+export const deleteVideo = async (public_id) => {
+    try {
+        await cloudinary.uploader.destroy(public_id);
+    } catch (error) {
+        console.error("Cloudinary delete error:", error);
+        throw new Error("VIDEO_DELETE_FAILED");
+    }
+};
+
 export default cloudinary;
