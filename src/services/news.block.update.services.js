@@ -21,6 +21,10 @@ export const newsBlockUpdateService = async (journalistId, action, dataForm) => 
         throw new Error("NEWS_NOT_FOUND");
     }
 
+    if (journalist.journalist_id !== news.journalist_id) {
+        throw new Error("JOURNALIST_NOT_AUTHORIZED");
+    }
+
     const block = await NewsBlock.findOne({
         where: {
             block_id: dataForm.block_id,
