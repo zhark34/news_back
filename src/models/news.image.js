@@ -14,8 +14,8 @@ const NewsImage = sequelize.define(
             type: DataTypes.STRING(),
             allowNull: false,
         },
-        caption: {
-            type: DataTypes.STRING(150),
+        image_public_id: {
+            type: DataTypes.STRING(),
             allowNull: false,
         },
         caption: {
