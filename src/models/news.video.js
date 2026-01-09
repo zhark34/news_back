@@ -14,6 +14,10 @@ const NewsVideo = sequelize.define(
             type: DataTypes.STRING,
             allowNull: false
         },
+        public_id: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
         caption: {
             type: DataTypes.STRING,
             allowNull: true
