@@ -35,7 +35,7 @@ export const newsListPreviewJournalistService = async (journalistId, idNews) => 
             },
             {
                 model: NewsBlock,
-                attributes: ["block_type", "position"],
+                attributes: ["block_type", "position", "block_id"],
                 include: [
                     { model: NewsParagraph, attributes: { exclude: ["id", "block_id", "news_id", "createdAt", "updatedAt"] } },
                     { model: NewsQuote, attributes: { exclude: ["id", "block_id", "news_id", "createdAt", "updatedAt"] } },
