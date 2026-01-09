@@ -6,6 +6,7 @@ import { newsListPreviewJournalistService } from "../services/news.list.preview.
 import { newsBlockCreatePhotoService } from "../services/news.block.create.photo.services.js";
 import { newsBlockCreateVideoService } from "../services/news.block.create.video.services.js";
 import { newsBlockUpdateService } from "../services/news.block.update.services.js";
+import { newsEditService } from "../services/news.edit.services.js";
 import fs from 'fs-extra';
 
 export const createNews = async (req, res) => {
@@ -259,6 +260,68 @@ export const newsBlockUpdate = async (req, res) => {
             return res.status(404).json({ message: "No se encontró la noticia con la ID indicada" });
         }
 
+        if (error.message === "JOURNALIST_NOT_AUTHORIZED") {
+            return res.status(403).json({ message: "No tienes permiso para modificar esta noticia" });
+        }
+
+        if (error.message === "BLOCK_NOT_FOUND") {
+            return res.status(404).json({ message: "No se encontró el bloque con la ID indicada" });
+        }
+
+        if (error.message === "PARAGRAPH_NOT_FOUND") {
+            return res.status(404).json({ message: "No se encontró el parrafo con la ID indicada" });
+        }
+
+        if (error.message === "QUOTE_NOT_FOUND") {
+            return res.status(404).json({ message: "No se encontró la cita con la ID indicada" });
+        }
+
+        if (error.message === "LIST_NOT_FOUND") {
+            return res.status(404).json({ message: "No se encontró la lista con la ID indicada" });
+        }
+
+        if (error.message === "LIST_ITEM_NOT_FOUND") {
+            return res.status(404).json({ message: "No se encontró el item de la lista con la ID indicada" });
+        }
+
+        if (error.message === "EMBED_NOT_FOUND") {
+            return res.status(404).json({ message: "No se encontró el embed con la ID indicada" });
+        }
+
         return res.status(500).json({ message: "Error al obtener las noticias del periodista", error: error.message });
+    }
+};
+
+export const newsEdit = async (req, res) => {
+
+    const { title, category, action, newsId, photo_id } = req.body;
+
+    const photo = req.file;
+
+    const journalistId = req.user.journalist_id;
+
+    try {
+
+        const news = await newsEditService(title, category, photo.path, journalistId, action, newsId, photo_id)
+
+        return res.status(200).json({
+            message: "OK",
+            news
+        });
+    } catch (error) {
+
+        if (error.message === "JOURNALIST_NOT_FOUND") {
+            return res.status(404).json({ message: "No se encontró el periodista con la ID indicada" });
+        }
+
+        if (error.message === "NEWS_NOT_FOUND") {
+            return res.status(404).json({ message: "No se encontró la noticia con la ID indicada" });
+        }
+
+        return res.status(500).json({ message: "Error al editar la noticia", error: error.message });
+    } finally {
+        if (req.file && req.file.path) {
+            await fs.unlink(req.file.path).catch(err => console.error("Error borrando temporal:", err));
+        }
     }
 };
