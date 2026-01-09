@@ -3,6 +3,7 @@ import { getNewsJournalistService } from "../services/news.get.journalist.servic
 import { newsSendToCheckService } from "../services/news.send.to.check.services.js";
 import { newsBlockCreateService } from "../services/news.block.create.services.js";
 import { newsListPreviewJournalistService } from "../services/news.list.preview.journalist.services.js";
+import { newsBlockCreatePhotoService } from "../services/news.block.create.photo.services.js";
 import fs from 'fs-extra';
 
 export const createNews = async (req, res) => {
@@ -154,4 +155,42 @@ export const newsListPreviewJournalist = async (req, res) => {
         return res.status(500).json({ message: "Error al obtener las noticias del periodista", error: error.message });
     }
 
-} 
+}
+
+export const newsBlockCreatePhoto = async (req, res) => {
+
+    const journalistId = req.user.journalist_id;
+    const { caption, photo_source, newsId, blockType, position } = req.body;
+    const photo = req.file;
+
+    try {
+
+        const news = await newsBlockCreatePhotoService(journalistId, caption, photo_source, photo.path, newsId, blockType, position);
+
+        return res.status(200).json({
+            message: "OK",
+            news
+        });
+
+    } catch (error) {
+
+        if (error.message === "JOURNALIST_NOT_FOUND") {
+            return res.status(404).json({ message: "No se encontró el periodista con la ID indicada" });
+        }
+
+        if (error.message === "NEWS_NOT_FOUND") {
+            return res.status(404).json({ message: "No se encontró la noticia con la ID indicada" });
+        }
+
+        if (error.message === "NOT_ALLOWED") {
+            return res.status(403).json({ message: "No tienes permiso para modificar esta noticia" });
+        }
+
+        return res.status(500).json({ message: "Error al modificar la noticia", error: error.message });
+    } finally {
+        if (req.file && req.file.path) {
+            await fs.unlink(req.file.path).catch(err => console.error("Error borrando temporal:", err));
+        }
+    }
+
+}
