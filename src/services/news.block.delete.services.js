@@ -9,6 +9,7 @@ import NewsQuote from "../models/news.quote.js";
 import NewsList from "../models/news.list.js";
 import NewsListItem from "../models/news.list.item.js";
 import { deleteImage, deleteVideo } from "../config/cloudinary.js";
+import NewsCaption from "../models/news.caption.js";
 
 export const newsBlockDeleteService = async (journalistId, blockId) => {
 
@@ -61,6 +62,9 @@ export const newsBlockDeleteService = async (journalistId, blockId) => {
         case "list":
             await NewsList.destroy({ where: { block_id: blockId } });
             await NewsListItem.destroy({ where: { list_id: list.list_id } });
+            break;
+        case "caption":
+            await NewsCaption.destroy({ where: { block_id: blockId } });
             break;
     }
 

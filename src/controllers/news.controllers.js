@@ -294,6 +294,10 @@ export const newsBlockUpdate = async (req, res) => {
             return res.status(404).json({ message: "No se encontró el embed con la ID indicada" });
         }
 
+        if (error.message === "CAPTION_NOT_FOUND") {
+            return res.status(404).json({ message: "No se encontró el caption con la ID indicada" });
+        }
+
         return res.status(500).json({ message: "Error al obtener las noticias del periodista", error: error.message });
     }
 };

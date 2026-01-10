@@ -6,6 +6,7 @@ import NewsList from "../models/news.list.js"
 import NewsListItem from "../models/news.list.item.js"
 import NewsParagraph from "../models/news.paragraph.js"
 import NewsQuote from "../models/news.quote.js"
+import NewsCaption from "../models/news.caption.js"
 
 export const newsBlockUpdateService = async (journalistId, action, dataForm) => {
 
@@ -119,6 +120,22 @@ export const newsBlockUpdateService = async (journalistId, action, dataForm) => 
         await embed.update({
             embed_code: dataForm.embed_code,
             provider: dataForm.provider,
+        })
+    }
+
+    if (action === "caption") {
+        const caption = await NewsCaption.findOne({
+            where: {
+                block_id: dataForm.block_id,
+            }
+        })
+
+        if (!caption) {
+            throw new Error("CAPTION_NOT_FOUND");
+        }
+
+        await caption.update({
+            caption: dataForm.caption,
         })
     }
 

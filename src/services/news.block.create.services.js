@@ -7,6 +7,7 @@ import NewsListItem from "../models/news.list.item.js"
 import NewsParagraph from "../models/news.paragraph.js"
 import NewsQuote from "../models/news.quote.js"
 import { generateId } from "../utils/id.generator.js"
+import NewsCaption from "../models/news.caption.js"
 
 export const newsBlockCreateService = async (journalistId, action, dataForm) => {
 
@@ -74,6 +75,14 @@ export const newsBlockCreateService = async (journalistId, action, dataForm) => 
             block_id: blockId,
             embed_code: dataForm.embed_code,
             provider: dataForm.provider,
+            news_id: dataForm.news_id
+        })
+    }
+
+    if (action === "caption") {
+        await NewsCaption.create({
+            block_id: blockId,
+            caption: dataForm.caption,
             news_id: dataForm.news_id
         })
     }
