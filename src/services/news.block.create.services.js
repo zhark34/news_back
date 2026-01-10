@@ -82,8 +82,7 @@ export const newsBlockCreateService = async (journalistId, action, dataForm) => 
     if (action === "caption") {
         await NewsCaption.create({
             block_id: blockId,
-            caption: dataForm.caption,
-            news_id: dataForm.news_id
+            caption: dataForm.caption
         })
     }
 
