@@ -15,16 +15,20 @@ import {
     newsEditPhoto,
     newsEditVideo,
     newsBlockDelete,
-    newsDelete
+    newsDelete,
+    newsModerateList,
+    newsListPreviewAdmin
 } from "../controllers/news.controllers.js";
 
 import { tokenMiddleware } from "../middlewares/token.middlewares.js";
 
 import { refreshToken } from "../middlewares/refresh.token.js";
 
-router.post("/create", tokenMiddleware, refreshToken, upload.single('photo'), createNews);
+router.get("/news-list-preview-admin/:id", tokenMiddleware, refreshToken, newsListPreviewAdmin);
 
-router.get("/:status", tokenMiddleware, refreshToken, getNewsJournalist);
+router.get("/moderate-list", tokenMiddleware, refreshToken, newsModerateList);
+
+router.post("/create", tokenMiddleware, refreshToken, upload.single('photo'), createNews);
 
 router.patch("/send-to-check/:id", tokenMiddleware, refreshToken, newsSendToCheck);
 
@@ -47,5 +51,7 @@ router.patch("/edit-video", tokenMiddleware, refreshToken, upload.single('video'
 router.delete("/block-delete/:id", tokenMiddleware, refreshToken, newsBlockDelete);
 
 router.delete("/delete/:id", tokenMiddleware, refreshToken, newsDelete);
+
+router.get("/list-status-news/:status", tokenMiddleware, refreshToken, getNewsJournalist);
 
 export default router;

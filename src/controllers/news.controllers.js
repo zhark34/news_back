@@ -11,6 +11,8 @@ import { newsEditPhotoService } from "../services/news.edit.photo.services.js";
 import { newsEditVideoService } from "../services/news.edit.video.services.js";
 import { newsBlockDeleteService } from "../services/news.block.delete.services.js";
 import { newsDeleteService } from "../services/news.delete.services.js";
+import { newsModerateListService } from "../services/news.moderate.list.services.js";
+import { newsListPreviewAdminService } from "../services/news.list.preview.admin.services.js";
 import fs from 'fs-extra';
 
 export const createNews = async (req, res) => {
@@ -474,14 +476,54 @@ export const newsDelete = async (req, res) => {
             return res.status(404).json({ message: "No se encontró el periodista con la ID indicada" });
         }
 
+        return res.status(500).json({ message: "Error al eliminar la noticia", error: error.message });
+    }
+};
+
+export const newsModerateList = async (req, res) => {
+
+    const journalistId = req.user.journalist_id;
+
+    try {
+        const { news } = await newsModerateListService(journalistId);
+
+        return res.status(200).json({
+            message: "OK",
+            news
+        });
+    } catch (error) {
+
+        if (error.message === "JOURNALIST_NOT_FOUND") {
+            return res.status(404).json({ message: "No se encontró el periodista con la ID indicada" });
+        }
+
+        return res.status(500).json({ message: "Error al obtener la lista de noticias", error: error.message });
+    }
+};
+
+export const newsListPreviewAdmin = async (req, res) => {
+
+    const journalistId = req.user.journalist_id;
+
+    const newsId = req.params.id;
+
+    try {
+        const news = await newsListPreviewAdminService(journalistId, newsId);
+
+        return res.status(200).json({
+            message: "OK",
+            news
+        });
+    } catch (error) {
+
+        if (error.message === "JOURNALIST_NOT_FOUND") {
+            return res.status(404).json({ message: "No se encontró el periodista con la ID indicada" });
+        }
+
         if (error.message === "NEWS_NOT_FOUND") {
             return res.status(404).json({ message: "No se encontró la noticia con la ID indicada" });
         }
 
-        if (error.message === "NOT_ALLOWED") {
-            return res.status(403).json({ message: "No tienes permiso para eliminar esta noticia" });
-        }
-
-        return res.status(500).json({ message: "Error al eliminar la noticia", error: error.message });
+        return res.status(500).json({ message: "Error al obtener la lista de noticias", error: error.message });
     }
 };
