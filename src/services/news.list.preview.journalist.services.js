@@ -10,6 +10,7 @@ import NewsList from "../models/news.list.js"
 import NewsListItem from "../models/news.list.item.js"
 import SocialNetworks from "../models/social.networks.js"
 import NewsStatus from "../models/news.status.js"
+import NewsCaption from "../models/news.caption.js"
 
 export const newsListPreviewJournalistService = async (journalistId, idNews) => {
 
@@ -42,6 +43,7 @@ export const newsListPreviewJournalistService = async (journalistId, idNews) => 
                     { model: NewsImage, attributes: { exclude: ["id", "block_id", "news_id", "createdAt", "updatedAt"] } },
                     { model: NewsVideo, attributes: { exclude: ["id", "block_id", "news_id", "createdAt", "updatedAt"] } },
                     { model: NewsEmbed, attributes: { exclude: ["id", "block_id", "news_id", "createdAt", "updatedAt"] } },
+                    { model: NewsCaption, attributes: { exclude: ["id", "block_id", "news_id", "createdAt", "updatedAt"] } },
                     {
                         model: NewsList, attributes: { exclude: ["id", "block_id", "news_id", "createdAt", "updatedAt"] },
                         include: [{ model: NewsListItem, attributes: { exclude: ["id", "list_id", "createdAt", "updatedAt", "list_id"] } }]
