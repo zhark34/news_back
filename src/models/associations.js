@@ -18,6 +18,7 @@ import NewsReferrersDaily from './news.referrers.daily.js';
 import NewsGeoAnalyticsDaily from './news.geo.analytics.daily.js';
 import NewsTechAnalitycsDaily from './news.tech.analitycs.daily.js';
 import NewsStatus from './news.status.js';
+import NewsCaption from './news.caption.js';
 
 Journalist.hasMany(CategoriesJournalist, { foreignKey: 'journalist_id', sourceKey: 'journalist_id' });
 CategoriesJournalist.belongsTo(Journalist, { foreignKey: 'journalist_id', targetKey: 'journalist_id' });
@@ -62,6 +63,9 @@ NewsList.belongsTo(NewsBlock, { foreignKey: "block_id", targetKey: "block_id" })
 
 NewsList.hasMany(NewsListItem, { foreignKey: "list_id", sourceKey: "list_id" });
 NewsListItem.belongsTo(NewsList, { foreignKey: "list_id", targetKey: "list_id" });
+
+NewsBlock.hasMany(NewsCaption, { foreignKey: "block_id", sourceKey: "block_id" });
+NewsCaption.belongsTo(NewsBlock, { foreignKey: "block_id", targetKey: "block_id" });
 
 NewsBlock.hasMany(NewsEmbed, { foreignKey: "block_id", sourceKey: "block_id" });
 NewsEmbed.belongsTo(NewsBlock, { foreignKey: "block_id", targetKey: "block_id" });
