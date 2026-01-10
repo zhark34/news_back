@@ -19,6 +19,10 @@ export const newsListPreviewAdminService = async (journalistId, newsId) => {
         throw new Error("JOURNALIST_NOT_FOUND")
     }
 
+    if (journalist.journalist_id !== "admin" || journalist.journalist_id !== "editor") {
+        throw new Error("NOT_ALLOWED")
+    }
+
     const news = await News.findOne({
         where: { news_id: newsId },
         attributes: { exclude: ["id", "createdAt", "updatedAt"] },

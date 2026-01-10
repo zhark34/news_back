@@ -524,6 +524,10 @@ export const newsListPreviewAdmin = async (req, res) => {
             return res.status(404).json({ message: "No se encontró la noticia con la ID indicada" });
         }
 
+        if (error.message === "NOT_ALLOWED") {
+            return res.status(403).json({ message: "No tienes permiso para acceder a esta noticia" });
+        }
+
         return res.status(500).json({ message: "Error al obtener la lista de noticias", error: error.message });
     }
 };
