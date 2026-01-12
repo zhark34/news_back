@@ -17,7 +17,8 @@ import {
     newsBlockDelete,
     newsDelete,
     newsModerateList,
-    newsListPreviewAdmin
+    newsListPreviewAdmin,
+    newsModerate
 } from "../controllers/news.controllers.js";
 
 import { tokenMiddleware } from "../middlewares/token.middlewares.js";
@@ -53,5 +54,7 @@ router.delete("/block-delete/:id", tokenMiddleware, refreshToken, newsBlockDelet
 router.delete("/delete/:id", tokenMiddleware, refreshToken, newsDelete);
 
 router.get("/list-status-news/:status", tokenMiddleware, refreshToken, getNewsJournalist);
+
+router.patch("/moderate/:action", tokenMiddleware, refreshToken, newsModerate);
 
 export default router;

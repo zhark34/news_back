@@ -13,6 +13,7 @@ import { newsBlockDeleteService } from "../services/news.block.delete.services.j
 import { newsDeleteService } from "../services/news.delete.services.js";
 import { newsModerateListService } from "../services/news.moderate.list.services.js";
 import { newsListPreviewAdminService } from "../services/news.list.preview.admin.services.js";
+import { newsModerateService } from "../services/news.moderate.services.js";
 import fs from 'fs-extra';
 
 export const createNews = async (req, res) => {
@@ -533,5 +534,46 @@ export const newsListPreviewAdmin = async (req, res) => {
         }
 
         return res.status(500).json({ message: "Error al obtener la lista de noticias", error: error.message });
+    }
+};
+
+export const newsModerate = async (req, res) => {
+
+    const journalistId = req.user.journalist_id;
+
+    const action = req.params.action;
+
+    const { news_id, msg } = req.body;
+
+    try {
+        const news = await newsModerateService(journalistId, action, news_id, msg);
+
+        return res.status(200).json({
+            message: "OK",
+            news
+        });
+    } catch (error) {
+
+        if (error.message === "JOURNALIST_NOT_FOUND") {
+            return res.status(404).json({ message: "No se encontró el periodista con la ID indicada" });
+        }
+
+        if (error.message === "NEWS_NOT_FOUND") {
+            return res.status(404).json({ message: "No se encontró la noticia con la ID indicada" });
+        }
+
+        if (error.message === "NOT_ALLOWED") {
+            return res.status(403).json({ message: "No tienes permiso para acceder a esta noticia" });
+        }
+
+        if (error.message === "NEWS_NOT_FOUND") {
+            return res.status(404).json({ message: "No se encontró la noticia con la ID indicada" });
+        }
+
+        if (error.message === "NEWS_STATUS_NOT_FOUND") {
+            return res.status(404).json({ message: "No se encontró el estado de la noticia con la ID indicada" });
+        }
+
+        return res.status(500).json({ message: "Error al moderar la noticia", error: error.message });
     }
 };
