@@ -29,15 +29,15 @@ const NewsAnalyticsDaily = sequelize.define(
             type: DataTypes.INTEGER,
             allowNull: false
         },
-        avg_time_seconds: {
+        total_time_seconds: {
             type: DataTypes.INTEGER,
             allowNull: false
         },
-        bounce_rate: {
+        total_bounces: {
             type: DataTypes.INTEGER,
             allowNull: false
         },
-        exit_rate: {
+        total_exits: {
             type: DataTypes.INTEGER,
             allowNull: false
         },
