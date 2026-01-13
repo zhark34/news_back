@@ -8,12 +8,14 @@ import socialNetworks from "./routes/social.networks.routes.js";
 import categories from "./routes/categories.routes.js"
 import sessions from "./routes/sessions.routes.js"
 import newsRoutes from "./routes/news.routes.js"
+import publicNewsRoutes from "./routes/public.news.routes.js"
+import analyticsRoutes from "./routes/analytics.routes.js";
 
 dotenv.config();
 
 const app = express();
 app.use(cors({
-    origin: 'http://localhost:3001',
+    origin: ['http://localhost:3001', 'http://localhost:3000'],
     credentials: true
 }));
 app.use(express.json());
@@ -41,6 +43,10 @@ app.use('/api/v1/categories', categories)
 app.use('/api/v1/sessions', sessions)
 
 app.use('/api/v1/news', newsRoutes)
+
+app.use('/api/v1/public-news', publicNewsRoutes);
+
+app.use('/api/v1/analytics', analyticsRoutes);
 
 app.get('/', (req, res) => {
     res.send('Servidor funcionando');
