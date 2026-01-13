@@ -4,8 +4,7 @@ import sequelize from "../config/db.js";
 const News = sequelize.define(
     "news",
     {
-
-        id: {
+        news_id: {
             type: DataTypes.BIGINT,
             primaryKey: true,
             autoIncrement: true,
@@ -33,11 +32,6 @@ const News = sequelize.define(
         journalist_id: {
             type: DataTypes.BIGINT,
             allowNull: false,
-        },
-        news_id: {
-            type: DataTypes.BIGINT,
-            allowNull: false,
-            unique: true
         },
 
     },
