@@ -70,20 +70,20 @@ NewsCaption.belongsTo(NewsBlock, { foreignKey: "block_id", targetKey: "block_id"
 NewsBlock.hasMany(NewsEmbed, { foreignKey: "block_id", sourceKey: "block_id" });
 NewsEmbed.belongsTo(NewsBlock, { foreignKey: "block_id", targetKey: "block_id" });
 
-News.hasMany(NewsAnalyticsDaily, { foreignKey: "news_id" });
-NewsAnalyticsDaily.belongsTo(News, { foreignKey: "news_id" });
+News.hasMany(NewsAnalyticsDaily, { foreignKey: "news_id", sourceKey: "news_id" });
+NewsAnalyticsDaily.belongsTo(News, { foreignKey: "news_id", targetKey: "news_id" });
 
-News.hasMany(NewsAnalyticsRealtime, { foreignKey: "news_id" });
-NewsAnalyticsRealtime.belongsTo(News, { foreignKey: "news_id" });
+News.hasMany(NewsAnalyticsRealtime, { foreignKey: "news_id", sourceKey: "news_id" });
+NewsAnalyticsRealtime.belongsTo(News, { foreignKey: "news_id", targetKey: "news_id" });
 
-News.hasMany(NewsReferrersDaily, { foreignKey: "news_id" });
-NewsReferrersDaily.belongsTo(News, { foreignKey: "news_id" });
+News.hasMany(NewsReferrersDaily, { foreignKey: "news_id", sourceKey: "news_id" });
+NewsReferrersDaily.belongsTo(News, { foreignKey: "news_id", targetKey: "news_id" });
 
-News.hasMany(NewsGeoAnalyticsDaily, { foreignKey: "news_id" });
-NewsGeoAnalyticsDaily.belongsTo(News, { foreignKey: "news_id" });
+News.hasMany(NewsGeoAnalyticsDaily, { foreignKey: "news_id", sourceKey: "news_id" });
+NewsGeoAnalyticsDaily.belongsTo(News, { foreignKey: "news_id", targetKey: "news_id" });
 
-News.hasMany(NewsTechAnalitycsDaily, { foreignKey: "news_id" });
-NewsTechAnalitycsDaily.belongsTo(News, { foreignKey: "news_id" });
+News.hasMany(NewsTechAnalitycsDaily, { foreignKey: "news_id", sourceKey: "news_id" });
+NewsTechAnalitycsDaily.belongsTo(News, { foreignKey: "news_id", targetKey: "news_id" });
 
 News.hasMany(NewsStatus, { foreignKey: "news_id", sourceKey: "news_id" });
 NewsStatus.belongsTo(News, { foreignKey: "news_id", targetKey: "news_id" });
