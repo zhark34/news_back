@@ -7,14 +7,14 @@ const NewsTechAnalitycsDaily = sequelize.define(
         id: {
             type: DataTypes.BIGINT,
             primaryKey: true,
-            autoIncrement: true,
+            autoIncrement: true
         },
         news_id: {
             type: DataTypes.BIGINT,
-            allowNull: false,
+            allowNull: false
         },
         date: {
-            type: DataTypes.DATE,
+            type: DataTypes.DATEONLY,
             allowNull: false
         },
         browser: {
@@ -25,19 +25,30 @@ const NewsTechAnalitycsDaily = sequelize.define(
             type: DataTypes.STRING,
             allowNull: false
         },
-        avg_load_time_ms: {
-            type: DataTypes.INTEGER,
+        device: {
+            type: DataTypes.STRING,
             allowNull: false
+        },
+        total_load_time_ms: {
+            type: DataTypes.BIGINT,
+            allowNull: false,
+            defaultValue: 0
+        },
+        total_requests: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            defaultValue: 0
         },
         errors_count: {
             type: DataTypes.INTEGER,
-            allowNull: false
+            allowNull: false,
+            defaultValue: 0
         }
-
     },
     {
         timestamps: true
     }
-)
+);
+
 
 export default NewsTechAnalitycsDaily
