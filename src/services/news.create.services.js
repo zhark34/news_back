@@ -23,7 +23,7 @@ export const createNewsService = async (title, category, photo, journalistId, ac
         category,
         journalist_id: journalistId,
         news_id: newsId,
-        cover_photo_id: public_id
+        cover_photo_public_id: public_id
     })
 
     if (action === "check") {
