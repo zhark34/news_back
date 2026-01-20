@@ -175,6 +175,10 @@ export const newsBlockCreatePhoto = async (req, res) => {
 
     try {
 
+        if (!photo) {
+            return res.status(400).json({ message: "No se proporcionó una foto" });
+        }
+
         const news = await newsBlockCreatePhotoService(journalistId, caption, photo_source, photo.path, newsId, blockType, position);
 
         return res.status(200).json({
@@ -212,6 +216,10 @@ export const newsBlockCreateVideo = async (req, res) => {
     const video = req.file;
 
     try {
+
+        if (!video) {
+            return res.status(400).json({ message: "No se proporcionó un video" });
+        }
 
         const news = await newsBlockCreateVideoService(journalistId, caption, video.path, newsId, blockType, position);
 
